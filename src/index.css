@@ -13,9 +13,10 @@
   -webkit-font-smoothing: antialiased;
   color: #1e293b;
   background: #ffffff;
-  scroll-behavior: smooth;
 }
 /* scroll is driven by JS (scrollToId): no CSS smooth / scroll-padding, else double offset + gap */
+/* cadangan bila JS belum jalan (buka langsung dengan #hash): berhenti di bawah navbar */
+section[id] { scroll-margin-top: 4.5rem; }
 html { -webkit-text-size-adjust: 100%; overflow-x: clip; }
 body { margin: 0; min-width: 320px; background: #ffffff; overflow-x: clip; }
 button, input, textarea, select { font: inherit; }

@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { fetchPublicData, ratingSummary } from "../lib/publicData";
+import useCountUp from "../lib/useCountUp";
 
 const CanvaPreview = () => {
   return (
@@ -112,6 +113,7 @@ const SocialProof = () => {
 
   const rating = ratingSummary(data?.testimonials);
   const visitors = Number(data?.visitorCount) || 0;
+  const visitorsShown = useCountUp(visitors);
 
   return (
     <div className="mt-6 flex min-h-[3.25rem] flex-wrap items-center gap-3">
@@ -130,7 +132,10 @@ const SocialProof = () => {
         <div className="flex items-center gap-2 rounded-2xl border border-blue-100 bg-blue-50/70 px-4 py-2">
           <span className="text-lg" aria-hidden="true">👀</span>
           <p className="text-sm font-bold text-slate-700">
-            {visitors.toLocaleString("id-ID")}
+            <span aria-hidden="true" className="tabular-nums">
+              {visitorsShown.toLocaleString("id-ID")}
+            </span>
+            <span className="sr-only">{visitors.toLocaleString("id-ID")}</span>
             <span className="font-semibold text-slate-500"> pengunjung</span>
           </p>
         </div>

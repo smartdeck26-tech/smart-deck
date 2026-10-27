@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useAnchorScroll } from "./lib/scroll";
 
 import Navbar from "./partials/Navbar";
 import Home from "./components/Home";
@@ -17,14 +17,11 @@ import ScrollReveal from "./partials/ScrollReveal";
 import WhatsAppFloat from "./partials/WhatsAppFloat";
 import { Analytics } from "@vercel/analytics/react";
 const App = () => {
+  useAnchorScroll();
+
   return (
-
     <div>
-
-      <header>
-
-        <Navbar />
-      </header>
+      <Navbar />
 
       <main>
         <ScrollReveal direction="left">
