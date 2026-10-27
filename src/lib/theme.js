@@ -46,7 +46,7 @@ export function useTheme() {
     return () => query.removeEventListener("change", onChange);
   }, [mode]);
 
-  const setMode = useCallback((next) => {
+    const setMode = useCallback((next) => {
     if (next === modeRef.current) return;
 
     try {
@@ -56,13 +56,8 @@ export function useTheme() {
     }
 
     const root = document.documentElement;
-
-    // Cara utama: View Transitions. Browser memotret tampilan lama dan baru,
-    // lalu cross-fade seluruh halaman sekaligus. Tidak ada elemen yang
-    // berganti warna satu per satu, jadi tidak patah-patah.
-    // Dilewati di layar kecil: Chrome Android menghilangkan navbar sticky
-    // selama transisi, jadi mobile memakai cadangan di bawah.
     const isMobile = window.matchMedia("(max-width: 767px)").matches;
+
     if (document.startViewTransition && !reducedMotion() && !isMobile) {
       document.startViewTransition(() => {
         flushSync(() => setModeState(next));
@@ -71,8 +66,8 @@ export function useTheme() {
       return;
     }
 
-    // Cadangan untuk browser lama: transisi warna singkat.
-    if (!reducedMotion()) {
+    // Cadangan desktop lama saja. Mobile: ganti langsung, tanpa transisi massal.
+    if (!reducedMotion() && !isMobile) {
       root.classList.add("theme-fade");
       setTimeout(() => root.classList.remove("theme-fade"), 500);
     }

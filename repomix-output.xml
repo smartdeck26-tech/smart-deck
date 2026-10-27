@@ -32,7 +32,7 @@ The content is organized as follows:
 <notes>
 - Some files may have been excluded based on .gitignore rules and Repomix's configuration
 - Binary files are not included in this packed representation. Please refer to the Repository Structure section for a complete list of file paths, including binary files
-- Only files matching these patterns are included: components, dist, dist/assets, dist/assets/ikon-gCQO0uRF.ico, dist/assets/index-B4iTkG_K.js, dist/assets/index-C3STIdRG.css, dist/index.html, dist/logo.png, lib, node_modules, partials, public, public/portofolio, public/portofolio/sebelum.png, public/portofolio/sesudah.jpg, public/logo.png, public/og-image.png, public/robots.txt, public/sitemap.xml, src, src/components, src/components/Home.jsx, src/components/Kontak.jsx, src/components/Layanan.jsx, src/components/Paket.jsx, src/components/Portofolio.jsx, src/components/Tentang.jsx, src/lib, src/lib/publicData.js, src/lib/scroll.js, src/lib/theme.js, src/lib/track.js, src/lib/useCountUp.js, src/partials, src/partials/AlurPembelajaran.jsx, src/partials/Brand.jsx, src/partials/CTA.jsx, src/partials/FAQ.jsx, src/partials/Footer.jsx, src/partials/Mascot.jsx, src/partials/Navbar.jsx, src/partials/ScrollReveal.jsx, src/partials/Testimonials.jsx, src/partials/ThemeToggle.jsx, src/partials/WhatsAppFloat.jsx, src/App.jsx, src/config.js, src/index.css, src/main.jsx, .gitignore, App.jsx, config.js, ikon.ico, index.css, index.html, package-lock.json, package.json, vite.config.js
+- Only files matching these patterns are included: components, dist, dist/assets, dist/assets/ikon-gCQO0uRF.ico, dist/assets/index-B4iTkG_K.js, dist/assets/index-C3STIdRG.css, dist/index.html, dist/logo.png, lib, node_modules, partials, public, public/portofolio, public/portofolio/sebelum.png, public/portofolio/sesudah.jpg, public/logo.png, public/og-image.png, public/robots.txt, public/sitemap.xml, src, src/components, src/components/Home.jsx, src/components/Kontak.jsx, src/components/Layanan.jsx, src/components/Paket.jsx, src/components/Portofolio.jsx, src/components/Tentang.jsx, src/lib, src/lib/publicData.js, src/lib/scroll.js, src/lib/theme.js, src/lib/track.js, src/lib/useCountUp.js, src/partials, src/partials/AlurPembelajaran.jsx, src/partials/Brand.jsx, src/partials/CTA.jsx, src/partials/FAQ.jsx, src/partials/Footer.jsx, src/partials/Mascot.jsx, src/partials/Navbar.jsx, src/partials/ScrollReveal.jsx, src/partials/Testimonials.jsx, src/partials/ThemeToggle.jsx, src/partials/WhatsAppFloat.jsx, src/App.jsx, src/config.js, src/index.css, src/main.jsx, .gitignore, App.jsx, config.js, ikon.ico, index.css, index.html, package-lock.json, package.json, repomix-output.xml, vite.config.js
 - Files matching patterns in .gitignore are excluded
 - Files matching default ignore patterns are excluded
 - Files are sorted by Git change count (files with more changes are at the bottom)
@@ -993,66 +993,6 @@ Sitemap: https://smart-deck10.vercel.app/sitemap.xml
 </urlset>
 </file>
 
-<file path="src/lib/theme.js">
-import { useCallback, useEffect, useState } from "react";
-
-export const THEME_KEY = "smartdeck-theme"; // "light" | "dark" | "system"
-const LIGHT_COLOR = "#024C99";
-const DARK_COLOR = "#0a1424";
-
-const darkQuery = () => window.matchMedia("(prefers-color-scheme: dark)");
-
-export function getStoredMode() {
-  try {
-    const v = localStorage.getItem(THEME_KEY);
-    return v === "light" || v === "dark" || v === "system" ? v : "system";
-  } catch {
-    return "system";
-  }
-}
-
-export function applyMode(mode) {
-  const dark = mode === "dark" || (mode === "system" && darkQuery().matches);
-  const root = document.documentElement;
-  root.classList.toggle("dark", dark);
-  root.style.colorScheme = dark ? "dark" : "light";
-  document
-    .querySelector('meta[name="theme-color"]')
-    ?.setAttribute("content", dark ? DARK_COLOR : LIGHT_COLOR);
-}
-
-// Panggil sekali (di Navbar). Mode "system" mengikuti pengaturan perangkat
-// dan ikut berubah otomatis saat pengaturan perangkat berubah.
-export function useTheme() {
-  const [mode, setModeState] = useState(getStoredMode);
-
-  useEffect(() => {
-    applyMode(mode);
-    if (mode !== "system") return;
-
-    const query = darkQuery();
-    const onChange = () => applyMode("system");
-    query.addEventListener("change", onChange);
-    return () => query.removeEventListener("change", onChange);
-  }, [mode]);
-
-  const setMode = useCallback((next) => {
-    try {
-      localStorage.setItem(THEME_KEY, next);
-    } catch {
-      /* penyimpanan diblokir: tetap jalan tanpa menyimpan */
-    }
-    // transisi warna singkat hanya saat pengguna menekan tombol
-    const root = document.documentElement;
-    root.classList.add("theme-fade");
-    setTimeout(() => root.classList.remove("theme-fade"), 400);
-    setModeState(next);
-  }, []);
-
-  return { mode, setMode };
-}
-</file>
-
 <file path="src/lib/useCountUp.js">
 import { useEffect, useState } from "react";
 
@@ -1137,52 +1077,6 @@ export default function ScrollReveal({
       style={{ "--reveal-delay": `${delay}ms` }}
     >
       {children}
-    </div>
-  );
-}
-</file>
-
-<file path="src/partials/ThemeToggle.jsx">
-import { FaSun, FaMoon, FaDesktop } from "react-icons/fa";
-
-const options = [
-  { value: "light", label: "Terang", Icon: FaSun },
-  { value: "dark", label: "Gelap", Icon: FaMoon },
-  { value: "system", label: "Sistem", Icon: FaDesktop },
-];
-
-export default function ThemeToggle({ mode, setMode, showLabel = false }) {
-  return (
-    <div
-      role="group"
-      aria-label="Pilih tampilan"
-      className={`flex items-center gap-1 rounded-full border border-blue-100 bg-blue-50/70 p-1 ${
-        showLabel ? "w-full" : ""
-      }`}
-    >
-      {options.map(({ value, label, Icon }) => {
-        const active = mode === value;
-        return (
-          <button
-            key={value}
-            type="button"
-            onClick={() => setMode(value)}
-            aria-pressed={active}
-            aria-label={`Tampilan ${label}`}
-            title={label}
-            className={`flex items-center justify-center gap-2 rounded-full text-xs font-extrabold transition ${
-              showLabel ? "h-9 flex-1" : "h-8 w-8"
-            } ${
-              active
-                ? "bg-[#024C99] text-white shadow-sm"
-                : "text-slate-500 hover:text-[#024C99]"
-            }`}
-          >
-            <Icon aria-hidden="true" className="text-sm" />
-            {showLabel && <span>{label}</span>}
-          </button>
-        );
-      })}
     </div>
   );
 }
@@ -1933,6 +1827,78 @@ export default function CTA() {
 }
 </file>
 
+<file path="src/partials/ThemeToggle.jsx">
+import { FaSun, FaMoon, FaDesktop } from "react-icons/fa";
+
+const options = [
+  { value: "light", label: "Terang", Icon: FaSun },
+  { value: "dark", label: "Gelap", Icon: FaMoon },
+  { value: "system", label: "Sistem", Icon: FaDesktop },
+];
+
+// size "sm" = ringkas untuk navbar mobile (sebelah hamburger).
+export default function ThemeToggle({
+  mode,
+  setMode,
+  showLabel = false,
+  size = "md",
+}) {
+  const small = size === "sm";
+  const index = Math.max(
+    0,
+    options.findIndex((o) => o.value === mode)
+  );
+
+  return (
+    <div
+      role="group"
+      aria-label="Pilih tampilan"
+      className={`rounded-full border border-blue-100 bg-blue-50/70 ${
+        small ? "p-0.5" : "p-1"
+      } ${showLabel ? "w-full" : ""}`}
+    >
+      <div className="relative grid grid-cols-3">
+        {/* Penanda aktif: bergeser halus antar opsi */}
+        <span
+          aria-hidden="true"
+          className="absolute inset-y-0 left-0 w-1/3 transition-transform duration-500 ease-[cubic-bezier(0.34,1.3,0.64,1)] motion-reduce:transition-none"
+          style={{ transform: `translateX(${index * 100}%)` }}
+        >
+          <span className="block h-full w-full rounded-full bg-[#024C99] shadow-sm" />
+        </span>
+
+        {options.map(({ value, label, Icon }) => {
+          const active = mode === value;
+          return (
+            <button
+              key={value}
+              type="button"
+              onClick={() => setMode(value)}
+              aria-pressed={active}
+              aria-label={`Tampilan ${label}`}
+              title={label}
+              className={`relative z-10 flex items-center justify-center gap-2 rounded-full font-extrabold transition-colors duration-300 ${
+                small ? "h-6 w-6 text-[11px]" : "h-8 w-8 text-xs"
+              } ${showLabel ? "h-9 w-auto flex-1" : ""} ${
+                active ? "text-white" : "text-slate-500 hover:text-[#024C99]"
+              }`}
+            >
+              <Icon
+                aria-hidden="true"
+                className={`transition-transform duration-300 ${
+                  small ? "text-[11px]" : "text-sm"
+                } ${active ? "scale-110" : "scale-100"}`}
+              />
+              {showLabel && <span>{label}</span>}
+            </button>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+</file>
+
 <file path="src/config.js">
 export const nomorwa = "6285166817961";
 
@@ -2237,6 +2203,92 @@ export function useAnchorScroll() {
       cancelCurrent?.();
     };
   }, []);
+}
+</file>
+
+<file path="src/lib/theme.js">
+import { useCallback, useEffect, useRef, useState } from "react";
+import { flushSync } from "react-dom";
+
+export const THEME_KEY = "smartdeck-theme"; // "light" | "dark" | "system"
+const LIGHT_COLOR = "#024C99";
+const DARK_COLOR = "#0a1424";
+
+const darkQuery = () => window.matchMedia("(prefers-color-scheme: dark)");
+const reducedMotion = () =>
+  window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
+
+export function getStoredMode() {
+  try {
+    const v = localStorage.getItem(THEME_KEY);
+    return v === "light" || v === "dark" || v === "system" ? v : "system";
+  } catch {
+    return "system";
+  }
+}
+
+export function applyMode(mode) {
+  const dark = mode === "dark" || (mode === "system" && darkQuery().matches);
+  const root = document.documentElement;
+  root.classList.toggle("dark", dark);
+  root.style.colorScheme = dark ? "dark" : "light";
+  document
+    .querySelector('meta[name="theme-color"]')
+    ?.setAttribute("content", dark ? DARK_COLOR : LIGHT_COLOR);
+}
+
+// Panggil sekali (di Navbar). Mode "system" mengikuti pengaturan perangkat
+// dan ikut berubah otomatis saat pengaturan perangkat berubah.
+export function useTheme() {
+  const [mode, setModeState] = useState(getStoredMode);
+  const modeRef = useRef(mode);
+  modeRef.current = mode;
+
+  // Terapkan saat mode berubah (mis. dari pengaturan perangkat atau muat awal).
+  useEffect(() => {
+    applyMode(mode);
+    if (mode !== "system") return;
+
+    const query = darkQuery();
+    const onChange = () => applyMode("system");
+    query.addEventListener("change", onChange);
+    return () => query.removeEventListener("change", onChange);
+  }, [mode]);
+
+  const setMode = useCallback((next) => {
+    if (next === modeRef.current) return;
+
+    try {
+      localStorage.setItem(THEME_KEY, next);
+    } catch {
+      /* penyimpanan diblokir: tetap jalan tanpa menyimpan */
+    }
+
+    const root = document.documentElement;
+
+    // Cara utama: View Transitions. Browser memotret tampilan lama dan baru,
+    // lalu cross-fade seluruh halaman sekaligus. Tidak ada elemen yang
+    // berganti warna satu per satu, jadi tidak patah-patah.
+    // Dilewati di layar kecil: Chrome Android menghilangkan navbar sticky
+    // selama transisi, jadi mobile memakai cadangan di bawah.
+    const isMobile = window.matchMedia("(max-width: 767px)").matches;
+    if (document.startViewTransition && !reducedMotion() && !isMobile) {
+      document.startViewTransition(() => {
+        flushSync(() => setModeState(next));
+        applyMode(next);
+      });
+      return;
+    }
+
+    // Cadangan untuk browser lama: transisi warna singkat.
+    if (!reducedMotion()) {
+      root.classList.add("theme-fade");
+      setTimeout(() => root.classList.remove("theme-fade"), 500);
+    }
+    setModeState(next);
+  }, []);
+
+  return { mode, setMode };
 }
 </file>
 
@@ -2835,142 +2887,6 @@ export default function Mascot({ variant = "preview" }) {
 }
 </file>
 
-<file path="src/partials/Navbar.jsx">
-import { useState } from "react";
-import Brand from "./Brand";
-import { nomorwa } from "../config";
-import { trackClick } from "../lib/track";
-import { useTheme } from "../lib/theme";
-import ThemeToggle from "./ThemeToggle";
-
-const nav = [
-  ["Beranda", "#home"],
-  ["Layanan", "#layanan"],
-  ["Tentang", "#tentang"],
-];
-
-export default function Navbar() {
-  const [menuOpen, setMenuOpen] = useState(false);
-  const { mode, setMode } = useTheme();
-
-  const closeMenu = () => setMenuOpen(false);
-
-  return (
-    <header className="sticky top-0 z-40 border-b border-blue-50 bg-white/90 shadow-sm backdrop-blur-xl">
-      <nav className="relative mx-auto flex max-w-7xl items-center justify-between px-5 py-3 sm:px-8">
-        <Brand />
-
-        {/* Mobile */}
-        <button
-          type="button"
-          className="rounded-xl p-2 text-2xl text-[#024C99] transition-transform duration-300 hover:bg-blue-50 md:hidden"
-          onClick={() => setMenuOpen((prev) => !prev)}
-          aria-label={menuOpen ? "Tutup menu" : "Buka menu"}
-          aria-expanded={menuOpen}
-          aria-controls="mobile-menu"
-        >
-          <span
-            aria-hidden="true"
-            className={`block transition-transform duration-300 ${
-              menuOpen ? "rotate-90" : "rotate-0"
-            }`}
-          >
-            {menuOpen ? "✕" : "☰"}
-          </span>
-        </button>
-
-        {/* Menu Desktop */}
-        <div className="hidden items-center gap-2 md:flex">
-          {nav.map(([label, href]) => (
-            <a
-              key={href}
-              href={href}
-              className="rounded-lg px-3 py-2 text-sm font-bold text-slate-600 transition hover:bg-blue-50 hover:text-[#024C99]"
-            >
-              {label}
-            </a>
-          ))}
-
-          <ThemeToggle mode={mode} setMode={setMode} />
-
-          <a
-            onClick={() => trackClick("navbar")}
-            href={`https://wa.me/${nomorwa}?text=${encodeURIComponent(
-              "Halo SmartDeck, saya ingin konsultasi gratis."
-            )}`}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="rounded-full bg-gradient-to-r from-[#024C99] to-[#009DFC] px-5 py-3 text-center text-sm font-extrabold text-white shadow-lg shadow-blue-200 transition hover:-translate-y-0.5"
-          >
-            Konsultasi gratis ↗
-          </a>
-        </div>
-
-        <div
-          id="mobile-menu"
-          aria-hidden={!menuOpen}
-          className={`absolute left-0 right-0 top-full grid overflow-hidden bg-white shadow-lg transition-[grid-template-rows,opacity] duration-300 ease-in-out md:hidden ${
-            menuOpen
-              ? "grid-rows-[1fr] border-b border-blue-100 opacity-100"
-              : "grid-rows-[0fr] opacity-0"
-          }`}
-        >
-          <div className="min-h-0 overflow-hidden">
-            <div className="space-y-1 px-5 py-3">
-              {nav.map(([label, href], index) => (
-                <a
-                  key={href}
-                  href={href}
-                  tabIndex={menuOpen ? 0 : -1}
-                  onClick={closeMenu}
-                  style={{
-                    transitionDelay: menuOpen ? `${index * 40}ms` : "0ms",
-                  }}
-                  className={`block rounded-lg px-4 py-3 text-sm font-bold text-slate-600 transition-all duration-300 hover:bg-blue-50 hover:text-[#024C99] ${
-                    menuOpen
-                      ? "translate-y-0 opacity-100"
-                      : "-translate-y-2 opacity-0"
-                  }`}
-                >
-                  {label}
-                </a>
-              ))}
-
-              <div className="mt-2">
-                <ThemeToggle mode={mode} setMode={setMode} showLabel />
-              </div>
-
-              <a
-                href={`https://wa.me/${nomorwa}?text=${encodeURIComponent(
-                  "Halo SmartDeck, saya ingin konsultasi gratis."
-                )}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                tabIndex={menuOpen ? 0 : -1}
-                onClick={() => {
-                  trackClick("navbar-mobile");
-                  closeMenu();
-                }}
-                style={{
-                  transitionDelay: menuOpen ? `${nav.length * 40}ms` : "0ms",
-                }}
-                className={`mt-2 block rounded-full bg-gradient-to-r from-[#024C99] to-[#009DFC] px-5 py-3 text-center text-sm font-extrabold text-white shadow-lg shadow-blue-200 transition-all duration-300 ${
-                  menuOpen
-                    ? "translate-y-0 opacity-100"
-                    : "-translate-y-2 opacity-0"
-                }`}
-              >
-                Konsultasi gratis ↗
-              </a>
-            </div>
-          </div>
-        </div>
-      </nav>
-    </header>
-  );
-}
-</file>
-
 <file path="src/App.jsx">
 import { useAnchorScroll } from "./lib/scroll";
 
@@ -3134,247 +3050,6 @@ export default App;
     <script type="module" src="/src/main.jsx"></script>
   </body>
 </html>
-</file>
-
-<file path="src/index.css">
-@import "tailwindcss";
-
-@custom-variant dark (&:where(.dark, .dark *));
-
-@theme {
-  --default-transition-duration: 350ms;
-  --default-transition-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
-  --ease-smooth: cubic-bezier(0.22, 1, 0.36, 1);
-}
-
-:root {
-  font-family: "Inter", "Poppins", ui-sans-serif, system-ui, sans-serif;
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  color: #1e293b;
-  background: #ffffff;
-}
-/* scroll is driven by JS (scrollToId): no CSS smooth / scroll-padding, else double offset + gap */
-/* cadangan bila JS belum jalan (buka langsung dengan #hash): berhenti di bawah navbar */
-section[id] { scroll-margin-top: 4.5rem; }
-html { -webkit-text-size-adjust: 100%; overflow-x: clip; }
-body { margin: 0; min-width: 320px; background: #ffffff; overflow-x: clip; }
-button, input, textarea, select { font: inherit; }
-button, a { -webkit-tap-highlight-color: transparent; touch-action: manipulation; }
-::selection { background: #009DFC; color: #ffffff; }
-
-
-
-/* Animasi awal */
-.scroll-reveal {
-  opacity: 0;
-  transition:
-    opacity 700ms ease,
-    transform 700ms cubic-bezier(0.22, 1, 0.36, 1);
-  transition-delay: var(--reveal-delay, 0ms);
-  will-change: opacity, transform;
-}
-
-/* Masuk dari kiri */
-.scroll-reveal.from-left {
-  transform: translateX(-70px);
-}
-
-/* Masuk dari kanan */
-.scroll-reveal.from-right {
-  transform: translateX(70px);
-}
-
-/* Kondisi setelah terlihat */
-.scroll-reveal.is-visible {
-  opacity: 1;
-  transform: translateX(0);
-}
-
-/* Hormati pengaturan pengurangan animasi pengguna */
-@media (prefers-reduced-motion: reduce) {
-  .scroll-reveal,
-  .scroll-reveal.from-left,
-  .scroll-reveal.from-right {
-    opacity: 1;
-    transform: none;
-    transition: none;
-  }
-}
-
-/* reveal on scroll (animation, so hover translate utilities keep working) */
-[data-reveal] { opacity: 0; }
-[data-reveal].is-in {
-  animation: reveal-up 0.9s var(--ease-smooth) var(--d, 0ms) both;
-}
-@keyframes reveal-up {
-  from { opacity: 0; transform: translate3d(0, 28px, 0) scale(0.985); }
-  to { opacity: 1; transform: none; }
-}
-
-.animate-float { animation: float-y 7s ease-in-out infinite; }
-@keyframes float-y {
-  0%, 100% { transform: translate3d(0, 0, 0); }
-  50% { transform: translate3d(0, -10px, 0); }
-}
-
-/* press feedback */
-a.rounded-full:active, form button:active, header button:active { scale: 0.97; }
-
-@media (prefers-reduced-motion: reduce) {
-  [data-reveal] { opacity: 1; animation: none !important; }
-  .animate-float { animation: none; }
-  *, *::before, *::after { transition-duration: 0.01ms !important; }
-}
-
-/* ---- Maskot Deki (SVG, animasi CSS murni) ---- */
-.sd-mascot { animation: sd-pop 0.7s var(--ease-smooth) 0.5s both; }
-@keyframes sd-pop {
-  from { opacity: 0; transform: translateY(18px) scale(0.85); }
-  to { opacity: 1; transform: none; }
-}
-
-.sd-float { animation: sd-float 3.4s ease-in-out infinite; }
-@keyframes sd-float {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-5px); }
-}
-
-.sd-shadow {
-  transform-box: fill-box;
-  transform-origin: center;
-  animation: sd-shadow 3.4s ease-in-out infinite;
-}
-@keyframes sd-shadow {
-  0%, 100% { transform: scale(1); }
-  50% { transform: scale(0.86); }
-}
-
-/* lompat kecil saat disorot / difokus */
-.sd-hop { transform-origin: 80px 154px; }
-.sd-mascot:hover .sd-hop,
-.sd-mascot:focus-visible .sd-hop { animation: sd-hop 0.7s ease-out; }
-@keyframes sd-hop {
-  0% { transform: translateY(0) scale(1); }
-  25% { transform: translateY(-14px) scale(0.97, 1.04); }
-  55% { transform: translateY(0) scale(1.04, 0.95); }
-  75% { transform: translateY(-4px) scale(1); }
-  100% { transform: none; }
-}
-
-.sd-eyes {
-  transform-box: fill-box;
-  transform-origin: center;
-  animation: sd-blink 4.6s infinite;
-}
-@keyframes sd-blink {
-  0%, 94%, 100% { transform: scaleY(1); }
-  97% { transform: scaleY(0.1); }
-}
-
-.sd-wave { transform-origin: 126px 100px; animation: sd-wave 3.6s ease-in-out infinite; }
-@keyframes sd-wave {
-  0%, 55%, 100% { transform: rotate(0deg); }
-  8% { transform: rotate(-14deg); }
-  16% { transform: rotate(8deg); }
-  24% { transform: rotate(-14deg); }
-  32% { transform: rotate(8deg); }
-  40% { transform: rotate(-10deg); }
-  48% { transform: rotate(4deg); }
-}
-
-.sd-pencil {
-  transform: rotate(-10deg);
-  transform-origin: 20px 126px;
-  animation: sd-write 2.4s ease-in-out infinite;
-}
-@keyframes sd-write {
-  0%, 100% { transform: rotate(-14deg); }
-  50% { transform: rotate(-4deg); }
-}
-
-.sd-tassel { transform-origin: 120px 40px; animation: sd-sway 2.8s ease-in-out infinite; }
-@keyframes sd-sway {
-  0%, 100% { transform: rotate(-8deg); }
-  50% { transform: rotate(8deg); }
-}
-
-.sd-spark {
-  transform-box: fill-box;
-  transform-origin: center;
-  animation: sd-twinkle 2.6s ease-in-out infinite;
-}
-.sd-spark.sd-d1 { animation-delay: 0.8s; }
-.sd-spark.sd-d2 { animation-delay: 1.6s; }
-@keyframes sd-twinkle {
-  0%, 100% { transform: scale(0.4); opacity: 0.3; }
-  50% { transform: scale(1); opacity: 1; }
-}
-
-.sd-bubble-text { animation: sd-bubble-in 0.45s var(--ease-smooth) both; }
-@keyframes sd-bubble-in {
-  from { opacity: 0; transform: translateY(6px); }
-  to { opacity: 1; transform: none; }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .sd-mascot, .sd-float, .sd-shadow, .sd-eyes, .sd-wave, .sd-pencil,
-  .sd-tassel, .sd-spark, .sd-bubble-text,
-  .sd-mascot:hover .sd-hop, .sd-mascot:focus-visible .sd-hop {
-    animation: none !important;
-  }
-  .sd-spark { opacity: 1; }
-}
-
-/* ================= MODE GELAP =================
-   Kelas "dark" dipasang di <html> oleh src/lib/theme.js.
-   Palet slate/blue/orange ditukar lewat variabel tema Tailwind, jadi semua
-   komponen ikut berubah tanpa mengedit kelasnya satu per satu. */
-html.dark {
-  --color-slate-50: #14233a;
-  --color-slate-100: #1b2b45;
-  --color-slate-200: #2a3d5c;
-  --color-slate-300: #4b5d78;
-  --color-slate-400: #8294ae;
-  --color-slate-500: #a3b3c9;
-  --color-slate-600: #bac7da;
-  --color-slate-700: #cfd9e6;
-  --color-slate-800: #e2e8f0;
-  --color-slate-900: #f1f5f9;
-
-  --color-blue-50: #12243f;
-  --color-blue-100: #1c3659;
-  --color-blue-200: #27507f;
-
-  --color-orange-50: #2b1e11;
-  --color-orange-100: #3d2915;
-
-  color: #dbe5f1;
-  background: #0a1424;
-}
-html.dark body { background: #0a1424; }
-
-/* warna yang ditulis langsung (bukan dari palet) */
-html.dark .bg-white { background-color: #101d33; }
-html.dark .bg-white\/90 { background-color: rgb(10 20 36 / 0.9); }
-html.dark .bg-\[\#F7FBFF\] { background-color: #0d1930; }
-html.dark .text-\[\#024C99\],
-html.dark .hover\:text-\[\#024C99\]:hover { color: #8cc8ff; }
-html.dark .text-blue-50 { color: #eaf4ff; } /* teks di atas gradien biru */
-html.dark .bg-clip-text { --tw-gradient-from: #6cbcff; } /* judul gradien di hero */
-
-/* kolom isian */
-html.dark input,
-html.dark textarea,
-html.dark select { color: #e2e8f0; }
-html.dark input::placeholder,
-html.dark textarea::placeholder { color: #7b8aa0; }
-
-/* halus saat berganti tema */
-html.theme-fade, html.theme-fade * {
-  transition: background-color 300ms ease, border-color 300ms ease, color 300ms ease !important;
-}
 </file>
 
 <file path="src/partials/Testimonials.jsx">
@@ -4233,6 +3908,396 @@ export default function Portofolio() {
       </div>
     </section>
   );
+}
+</file>
+
+<file path="src/partials/Navbar.jsx">
+import { useState } from "react";
+import Brand from "./Brand";
+import { nomorwa } from "../config";
+import { trackClick } from "../lib/track";
+import { useTheme } from "../lib/theme";
+import ThemeToggle from "./ThemeToggle";
+
+const nav = [
+  ["Beranda", "#home"],
+  ["Layanan", "#layanan"],
+  ["Tentang", "#tentang"],
+];
+
+export default function Navbar() {
+  const [menuOpen, setMenuOpen] = useState(false);
+  const { mode, setMode } = useTheme();
+
+  const closeMenu = () => setMenuOpen(false);
+
+  return (
+    <header
+      style={{ viewTransitionName: "site-header" }}
+      className="sticky top-0 z-40 border-b border-blue-50 bg-white/90 shadow-sm backdrop-blur-xl"
+    >
+      <nav className="relative mx-auto flex max-w-7xl items-center justify-between px-5 py-3 sm:px-8">
+        <Brand />
+
+        {/* Mobile: toggle tema + hamburger */}
+        <div className="flex items-center gap-2 md:hidden">
+          <ThemeToggle mode={mode} setMode={setMode} size="sm" />
+
+          <button
+            type="button"
+            className="rounded-xl p-2 text-2xl text-[#024C99] transition-transform duration-300 hover:bg-blue-50"
+            onClick={() => setMenuOpen((prev) => !prev)}
+            aria-label={menuOpen ? "Tutup menu" : "Buka menu"}
+            aria-expanded={menuOpen}
+            aria-controls="mobile-menu"
+          >
+            <span
+              aria-hidden="true"
+              className={`block transition-transform duration-300 ${
+                menuOpen ? "rotate-90" : "rotate-0"
+              }`}
+            >
+              {menuOpen ? "✕" : "☰"}
+            </span>
+          </button>
+        </div>
+
+        {/* Menu Desktop */}
+        <div className="hidden items-center gap-2 md:flex">
+          {nav.map(([label, href]) => (
+            <a
+              key={href}
+              href={href}
+              className="rounded-lg px-3 py-2 text-sm font-bold text-slate-600 transition hover:bg-blue-50 hover:text-[#024C99]"
+            >
+              {label}
+            </a>
+          ))}
+
+          <ThemeToggle mode={mode} setMode={setMode} />
+
+          <a
+            onClick={() => trackClick("navbar")}
+            href={`https://wa.me/${nomorwa}?text=${encodeURIComponent(
+              "Halo SmartDeck, saya ingin konsultasi gratis."
+            )}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="rounded-full bg-gradient-to-r from-[#024C99] to-[#009DFC] px-5 py-3 text-center text-sm font-extrabold text-white shadow-lg shadow-blue-200 transition hover:-translate-y-0.5"
+          >
+            Konsultasi gratis ↗
+          </a>
+        </div>
+
+        <div
+          id="mobile-menu"
+          aria-hidden={!menuOpen}
+          className={`absolute left-0 right-0 top-full grid overflow-hidden bg-white shadow-lg transition-[grid-template-rows,opacity] duration-300 ease-in-out md:hidden ${
+            menuOpen
+              ? "grid-rows-[1fr] border-b border-blue-100 opacity-100"
+              : "grid-rows-[0fr] opacity-0"
+          }`}
+        >
+          <div className="min-h-0 overflow-hidden">
+            <div className="space-y-1 px-5 py-3">
+              {nav.map(([label, href], index) => (
+                <a
+                  key={href}
+                  href={href}
+                  tabIndex={menuOpen ? 0 : -1}
+                  onClick={closeMenu}
+                  style={{
+                    transitionDelay: menuOpen ? `${index * 40}ms` : "0ms",
+                  }}
+                  className={`block rounded-lg px-4 py-3 text-sm font-bold text-slate-600 transition-all duration-300 hover:bg-blue-50 hover:text-[#024C99] ${
+                    menuOpen
+                      ? "translate-y-0 opacity-100"
+                      : "-translate-y-2 opacity-0"
+                  }`}
+                >
+                  {label}
+                </a>
+              ))}
+
+              <a
+                href={`https://wa.me/${nomorwa}?text=${encodeURIComponent(
+                  "Halo SmartDeck, saya ingin konsultasi gratis."
+                )}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                tabIndex={menuOpen ? 0 : -1}
+                onClick={() => {
+                  trackClick("navbar-mobile");
+                  closeMenu();
+                }}
+                style={{
+                  transitionDelay: menuOpen ? `${nav.length * 40}ms` : "0ms",
+                }}
+                className={`mt-2 block rounded-full bg-gradient-to-r from-[#024C99] to-[#009DFC] px-5 py-3 text-center text-sm font-extrabold text-white shadow-lg shadow-blue-200 transition-all duration-300 ${
+                  menuOpen
+                    ? "translate-y-0 opacity-100"
+                    : "-translate-y-2 opacity-0"
+                }`}
+              >
+                Konsultasi gratis ↗
+              </a>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+  );
+}
+</file>
+
+<file path="src/index.css">
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --default-transition-duration: 350ms;
+  --default-transition-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-smooth: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+:root {
+  font-family: "Inter", "Poppins", ui-sans-serif, system-ui, sans-serif;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  color: #1e293b;
+  background: #ffffff;
+}
+/* scroll is driven by JS (scrollToId): no CSS smooth / scroll-padding, else double offset + gap */
+/* cadangan bila JS belum jalan (buka langsung dengan #hash): berhenti di bawah navbar */
+section[id] { scroll-margin-top: 4.5rem; }
+html { -webkit-text-size-adjust: 100%; overflow-x: clip; }
+body { margin: 0; min-width: 320px; background: #ffffff; overflow-x: clip; }
+button, input, textarea, select { font: inherit; }
+button, a { -webkit-tap-highlight-color: transparent; touch-action: manipulation; }
+::selection { background: #009DFC; color: #ffffff; }
+
+
+
+/* Animasi awal */
+.scroll-reveal {
+  opacity: 0;
+  transition:
+    opacity 700ms ease,
+    transform 700ms cubic-bezier(0.22, 1, 0.36, 1);
+  transition-delay: var(--reveal-delay, 0ms);
+  will-change: opacity, transform;
+}
+
+/* Masuk dari kiri */
+.scroll-reveal.from-left {
+  transform: translateX(-70px);
+}
+
+/* Masuk dari kanan */
+.scroll-reveal.from-right {
+  transform: translateX(70px);
+}
+
+/* Kondisi setelah terlihat */
+.scroll-reveal.is-visible {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* Hormati pengaturan pengurangan animasi pengguna */
+@media (prefers-reduced-motion: reduce) {
+  .scroll-reveal,
+  .scroll-reveal.from-left,
+  .scroll-reveal.from-right {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
+
+/* reveal on scroll (animation, so hover translate utilities keep working) */
+[data-reveal] { opacity: 0; }
+[data-reveal].is-in {
+  animation: reveal-up 0.9s var(--ease-smooth) var(--d, 0ms) both;
+}
+@keyframes reveal-up {
+  from { opacity: 0; transform: translate3d(0, 28px, 0) scale(0.985); }
+  to { opacity: 1; transform: none; }
+}
+
+.animate-float { animation: float-y 7s ease-in-out infinite; }
+@keyframes float-y {
+  0%, 100% { transform: translate3d(0, 0, 0); }
+  50% { transform: translate3d(0, -10px, 0); }
+}
+
+/* press feedback */
+a.rounded-full:active, form button:active, header button:active { scale: 0.97; }
+
+@media (prefers-reduced-motion: reduce) {
+  [data-reveal] { opacity: 1; animation: none !important; }
+  .animate-float { animation: none; }
+  *, *::before, *::after { transition-duration: 0.01ms !important; }
+}
+
+/* ---- Maskot Deki (SVG, animasi CSS murni) ---- */
+.sd-mascot { animation: sd-pop 0.7s var(--ease-smooth) 0.5s both; }
+@keyframes sd-pop {
+  from { opacity: 0; transform: translateY(18px) scale(0.85); }
+  to { opacity: 1; transform: none; }
+}
+
+.sd-float { animation: sd-float 3.4s ease-in-out infinite; }
+@keyframes sd-float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-5px); }
+}
+
+.sd-shadow {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: sd-shadow 3.4s ease-in-out infinite;
+}
+@keyframes sd-shadow {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(0.86); }
+}
+
+/* lompat kecil saat disorot / difokus */
+.sd-hop { transform-origin: 80px 154px; }
+.sd-mascot:hover .sd-hop,
+.sd-mascot:focus-visible .sd-hop { animation: sd-hop 0.7s ease-out; }
+@keyframes sd-hop {
+  0% { transform: translateY(0) scale(1); }
+  25% { transform: translateY(-14px) scale(0.97, 1.04); }
+  55% { transform: translateY(0) scale(1.04, 0.95); }
+  75% { transform: translateY(-4px) scale(1); }
+  100% { transform: none; }
+}
+
+.sd-eyes {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: sd-blink 4.6s infinite;
+}
+@keyframes sd-blink {
+  0%, 94%, 100% { transform: scaleY(1); }
+  97% { transform: scaleY(0.1); }
+}
+
+.sd-wave { transform-origin: 126px 100px; animation: sd-wave 3.6s ease-in-out infinite; }
+@keyframes sd-wave {
+  0%, 55%, 100% { transform: rotate(0deg); }
+  8% { transform: rotate(-14deg); }
+  16% { transform: rotate(8deg); }
+  24% { transform: rotate(-14deg); }
+  32% { transform: rotate(8deg); }
+  40% { transform: rotate(-10deg); }
+  48% { transform: rotate(4deg); }
+}
+
+.sd-pencil {
+  transform: rotate(-10deg);
+  transform-origin: 20px 126px;
+  animation: sd-write 2.4s ease-in-out infinite;
+}
+@keyframes sd-write {
+  0%, 100% { transform: rotate(-14deg); }
+  50% { transform: rotate(-4deg); }
+}
+
+.sd-tassel { transform-origin: 120px 40px; animation: sd-sway 2.8s ease-in-out infinite; }
+@keyframes sd-sway {
+  0%, 100% { transform: rotate(-8deg); }
+  50% { transform: rotate(8deg); }
+}
+
+.sd-spark {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: sd-twinkle 2.6s ease-in-out infinite;
+}
+.sd-spark.sd-d1 { animation-delay: 0.8s; }
+.sd-spark.sd-d2 { animation-delay: 1.6s; }
+@keyframes sd-twinkle {
+  0%, 100% { transform: scale(0.4); opacity: 0.3; }
+  50% { transform: scale(1); opacity: 1; }
+}
+
+.sd-bubble-text { animation: sd-bubble-in 0.45s var(--ease-smooth) both; }
+@keyframes sd-bubble-in {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sd-mascot, .sd-float, .sd-shadow, .sd-eyes, .sd-wave, .sd-pencil,
+  .sd-tassel, .sd-spark, .sd-bubble-text,
+  .sd-mascot:hover .sd-hop, .sd-mascot:focus-visible .sd-hop {
+    animation: none !important;
+  }
+  .sd-spark { opacity: 1; }
+}
+
+/* ================= MODE GELAP =================
+   Kelas "dark" dipasang di <html> oleh src/lib/theme.js.
+   Palet slate/blue/orange ditukar lewat variabel tema Tailwind, jadi semua
+   komponen ikut berubah tanpa mengedit kelasnya satu per satu. */
+html.dark {
+  --color-slate-50: #14233a;
+  --color-slate-100: #1b2b45;
+  --color-slate-200: #2a3d5c;
+  --color-slate-300: #4b5d78;
+  --color-slate-400: #8294ae;
+  --color-slate-500: #a3b3c9;
+  --color-slate-600: #bac7da;
+  --color-slate-700: #cfd9e6;
+  --color-slate-800: #e2e8f0;
+  --color-slate-900: #f1f5f9;
+
+  --color-blue-50: #12243f;
+  --color-blue-100: #1c3659;
+  --color-blue-200: #27507f;
+
+  --color-orange-50: #2b1e11;
+  --color-orange-100: #3d2915;
+
+  color: #dbe5f1;
+  background: #0a1424;
+}
+html.dark body { background: #0a1424; }
+
+/* warna yang ditulis langsung (bukan dari palet) */
+html.dark .bg-white { background-color: #101d33; }
+html.dark .bg-white\/90 { background-color: rgb(10 20 36 / 0.9); }
+html.dark .bg-\[\#F7FBFF\] { background-color: #0d1930; }
+html.dark .text-\[\#024C99\],
+html.dark .hover\:text-\[\#024C99\]:hover { color: #8cc8ff; }
+html.dark .text-blue-50 { color: #eaf4ff; } /* teks di atas gradien biru */
+html.dark .bg-clip-text { --tw-gradient-from: #6cbcff; } /* judul gradien di hero */
+
+/* kolom isian */
+html.dark input,
+html.dark textarea,
+html.dark select { color: #e2e8f0; }
+html.dark input::placeholder,
+html.dark textarea::placeholder { color: #7b8aa0; }
+
+html.theme-fade,
+html.theme-fade *,
+html.theme-fade *::before,
+html.theme-fade *::after {
+  transition-property: background-color, border-color, color, fill, stroke, box-shadow !important;
+  transition-duration: 450ms !important;
+  transition-timing-function: cubic-bezier(0.22, 1, 0.36, 1) !important;
+}
+
+::view-transition-group(site-header),
+::view-transition-group(wa-float) {
+  animation-duration: 450ms;
+  animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
 }
 </file>
 

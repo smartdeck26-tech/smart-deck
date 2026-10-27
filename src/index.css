@@ -246,3 +246,11 @@ html.theme-fade *::after {
   animation-duration: 450ms;
   animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
 }
+
+header[style*="site-header"] {
+  transform: translateZ(0);
+}
+
+html.theme-fade header {
+  transition: none !important;
+}
