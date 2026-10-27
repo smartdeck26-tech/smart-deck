@@ -1,9 +1,7 @@
-import { useEffect, useState } from "react";
+import { useEffect, useId, useState } from "react";
 import { waLink } from "../config";
 import { trackClick } from "../lib/track";
 
-// Maskot "Deki": SVG vektor, tiap bagian (mata, tangan, pensil, kuncir toga,
-// kilau) berupa grup terpisah yang dianimasikan lewat CSS di index.css.
 const messages = [
   "Halo! Aku Deki \u{1F44B}",
   "Mau media belajar yang seru?",
@@ -16,8 +14,9 @@ const prefersReducedMotion = () =>
   typeof window !== "undefined" &&
   window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
 
-export default function Mascot() {
-  // Pengguna "kurangi animasi": langsung tampil pesan ajakan terakhir, diam.
+export default function Mascot({ variant = "preview" }) {
+  const gradId = `sdBody${useId().replace(/:/g, "")}`;
+  const isTop = variant === "top";
   const [index, setIndex] = useState(() => (prefersReducedMotion() ? last : 0));
   const [ready, setReady] = useState(false);
 
@@ -26,7 +25,6 @@ export default function Mascot() {
     return () => clearTimeout(timer);
   }, []);
 
-  // Pesan berganti sampai ajakan terakhir, lalu berhenti (tidak mengganggu).
   useEffect(() => {
     if (!ready || index >= last) return;
     const timer = setTimeout(() => setIndex(index + 1), 4200);
@@ -34,12 +32,18 @@ export default function Mascot() {
   }, [ready, index]);
 
   return (
-    <div className="absolute bottom-full right-3 z-20 translate-y-3 sm:right-8">
+    <div
+      className={
+        isTop
+          ? "relative z-20 mb-5 flex justify-end md:hidden"
+          : "absolute bottom-full right-8 z-20 hidden translate-y-3 md:block"
+      }
+    >
       <a
         href={waLink("Halo SmartDeck, saya ingin konsultasi tentang media pembelajaran.")}
         target="_blank"
         rel="noopener noreferrer"
-        onClick={() => trackClick("maskot")}
+        onClick={() => trackClick(isTop ? "maskot-top" : "maskot")}
         aria-label="Chat SmartDeck lewat WhatsApp bersama maskot Deki"
         className="sd-mascot flex items-start gap-2 rounded-3xl outline-offset-4"
       >
@@ -57,12 +61,14 @@ export default function Mascot() {
 
         <svg
           viewBox="0 0 160 172"
-          className="block h-auto w-24 shrink-0 overflow-visible sm:w-32"
+          className={`block h-auto shrink-0 overflow-visible ${
+            isTop ? "w-20 sm:w-24" : "w-32"
+          }`}
           aria-hidden="true"
           focusable="false"
         >
         <defs>
-          <linearGradient id="sdBody" x1="0" y1="0" x2="1" y2="1">
+          <linearGradient id={gradId} x1="0" y1="0" x2="1" y2="1">
             <stop offset="0" stopColor="#024C99" />
             <stop offset="1" stopColor="#009DFC" />
           </linearGradient>
@@ -90,7 +96,7 @@ export default function Mascot() {
             </g>
             <circle cx="20" cy="125" r="7.5" fill="#fff" stroke="#024C99" strokeWidth="2.5" />
 
-            <rect x="32" y="56" width="96" height="92" rx="26" fill="url(#sdBody)" />
+            <rect x="32" y="56" width="96" height="92" rx="26" fill={`url(#${gradId})`} />
             <rect x="43" y="67" width="74" height="54" rx="17" fill="#F3F9FF" />
 
             <g className="sd-eyes">

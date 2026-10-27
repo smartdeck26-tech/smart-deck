@@ -6,7 +6,7 @@ import Mascot from "../partials/Mascot";
 const CanvaPreview = () => {
   return (
     <div className="relative mx-auto max-w-lg">
-      <Mascot />
+      <Mascot variant="preview" />
 
       {/* Dekorasi */}
       <div className="absolute -right-5 -top-5 h-28 w-28 rounded-full bg-orange-100 blur-2xl" />
@@ -157,6 +157,8 @@ const Home = () => {
 
       {/* Konten utama */}
       <div className="relative z-10">
+        <Mascot variant="top" />
+
         <span className="inline-flex items-center gap-2 rounded-full border border-blue-100 bg-blue-50/70 px-4 py-2 text-sm font-bold text-[#024C99]">
           <span aria-hidden="true" className="text-[#F7963A]">✦</span>
           Partner media pembelajaran kreatif
@@ -201,7 +203,7 @@ const Home = () => {
       </div>
 
       {/* Ilustrasi media pembelajaran */}
-      <div className="relative z-10 px-2 pb-5 pt-16 sm:px-6 md:pt-12">
+      <div className="relative z-10 px-2 pb-5 pt-3 sm:px-6 md:pt-12">
         <CanvaPreview />
       </div>
     </section>
