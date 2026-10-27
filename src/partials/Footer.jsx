@@ -24,8 +24,7 @@ const socialMedia = [
   {
     name: "YouTube",
     icon: FaYoutube,
-    link: "#",
-    // https://www.youtube.com/@USERNAME
+    link: "https://www.youtube.com/@SmartDeck10",
   },
   {
     name: "TikTok",
