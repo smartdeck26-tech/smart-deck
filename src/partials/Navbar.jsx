@@ -22,24 +22,28 @@ export default function Navbar() {
       <nav className="relative mx-auto flex max-w-7xl items-center justify-between px-5 py-3 sm:px-8">
         <Brand />
 
-        {/* Mobile */}
-        <button
-          type="button"
-          className="rounded-xl p-2 text-2xl text-[#024C99] transition-transform duration-300 hover:bg-blue-50 md:hidden"
-          onClick={() => setMenuOpen((prev) => !prev)}
-          aria-label={menuOpen ? "Tutup menu" : "Buka menu"}
-          aria-expanded={menuOpen}
-          aria-controls="mobile-menu"
-        >
-          <span
-            aria-hidden="true"
-            className={`block transition-transform duration-300 ${
-              menuOpen ? "rotate-90" : "rotate-0"
-            }`}
+        {/* Mobile: toggle tema + hamburger */}
+        <div className="flex items-center gap-2 md:hidden">
+          <ThemeToggle mode={mode} setMode={setMode} />
+
+          <button
+            type="button"
+            className="rounded-xl p-2 text-2xl text-[#024C99] transition-transform duration-300 hover:bg-blue-50"
+            onClick={() => setMenuOpen((prev) => !prev)}
+            aria-label={menuOpen ? "Tutup menu" : "Buka menu"}
+            aria-expanded={menuOpen}
+            aria-controls="mobile-menu"
           >
-            {menuOpen ? "✕" : "☰"}
-          </span>
-        </button>
+            <span
+              aria-hidden="true"
+              className={`block transition-transform duration-300 ${
+                menuOpen ? "rotate-90" : "rotate-0"
+              }`}
+            >
+              {menuOpen ? "✕" : "☰"}
+            </span>
+          </button>
+        </div>
 
         {/* Menu Desktop */}
         <div className="hidden items-center gap-2 md:flex">
@@ -97,10 +101,6 @@ export default function Navbar() {
                   {label}
                 </a>
               ))}
-
-              <div className="mt-2">
-                <ThemeToggle mode={mode} setMode={setMode} showLabel />
-              </div>
 
               <a
                 href={`https://wa.me/${nomorwa}?text=${encodeURIComponent(
