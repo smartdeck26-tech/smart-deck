@@ -44,7 +44,7 @@ export const faqs = [
 ];
 
 export default function FAQ() {
-  const [faqOpen, setFaqOpen] = useState(0);
+  const [faqOpen, setFaqOpen] = useState(-1);
 
   return (
     <section className="px-5 py-20 sm:px-8">

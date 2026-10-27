@@ -1,26 +1,22 @@
 import { useEffect } from "react";
 
-// Tinggi navbar sticky dibaca langsung, jadi tetap pas di HP maupun desktop.
 function headerHeight() {
   const header = document.querySelector("header");
   return header ? Math.round(header.getBoundingClientRect().height) : 0;
 }
 
-// Posisi scroll agar bagian atas section tepat di bawah navbar.
 function targetTop(el) {
   const top = el.getBoundingClientRect().top + window.scrollY - headerHeight();
   const max = document.documentElement.scrollHeight - window.innerHeight;
   return Math.max(0, Math.min(Math.round(top), Math.round(max)));
 }
 
-// Percepatan lembut di awal, perlambatan lembut di akhir.
 const easeInOut = (t) =>
   t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
 
-// Atur kecepatan di sini. Naikkan angkanya = scroll makin lambat.
-const MIN_MS = 900; // durasi terpendek (jarak dekat)
-const MAX_MS = 2000; // durasi terpanjang (jarak jauh)
-const MS_PER_PX = 0.5; // tambahan durasi per piksel jarak
+const MIN_MS = 900;
+const MAX_MS = 2000;
+const MS_PER_PX = 0.5;
 
 const STOP_EVENTS = ["wheel", "touchstart", "keydown", "mousedown"];
 let cancelCurrent = null;
@@ -47,15 +43,12 @@ function animateTo(el) {
   };
   cancelCurrent = stop;
 
-  // Pengguna mulai scroll sendiri: jangan dilawan.
   STOP_EVENTS.forEach((type) =>
     window.addEventListener(type, stop, { passive: true })
   );
 
   const step = (now) => {
     const p = Math.min(1, (now - startedAt) / duration);
-    // Target dihitung ulang tiap frame, jadi tetap pas walau layout bergeser
-    // (font, data testimoni, bilah alamat HP naik/turun).
     const end = targetTop(el);
     jump(startY + (end - startY) * easeInOut(p));
 
@@ -87,7 +80,6 @@ export function scrollToId(id, { smooth = true } = {}) {
   return true;
 }
 
-// Pasang sekali di App: semua <a href="#..."> otomatis memakai scrollToId.
 export function useAnchorScroll() {
   useEffect(() => {
     const onClick = (event) => {
@@ -116,7 +108,6 @@ export function useAnchorScroll() {
 
     document.addEventListener("click", onClick);
 
-    // Halaman dibuka langsung dengan #layanan dst.
     const initialId = decodeURIComponent(window.location.hash.slice(1));
     if (initialId) {
       requestAnimationFrame(() => scrollToId(initialId, { smooth: false }));
