@@ -236,3 +236,9 @@ html.dark textarea::placeholder { color: #7b8aa0; }
 html.theme-fade, html.theme-fade * {
   transition: background-color 300ms ease, border-color 300ms ease, color 300ms ease !important;
 }
+
+::view-transition-group(site-header),
+::view-transition-group(wa-float) {
+  animation-duration: 450ms;
+  animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+}
