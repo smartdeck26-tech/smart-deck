@@ -232,9 +232,13 @@ html.dark select { color: #e2e8f0; }
 html.dark input::placeholder,
 html.dark textarea::placeholder { color: #7b8aa0; }
 
-/* halus saat berganti tema */
-html.theme-fade, html.theme-fade * {
-  transition: background-color 300ms ease, border-color 300ms ease, color 300ms ease !important;
+html.theme-fade,
+html.theme-fade *,
+html.theme-fade *::before,
+html.theme-fade *::after {
+  transition-property: background-color, border-color, color, fill, stroke, box-shadow !important;
+  transition-duration: 450ms !important;
+  transition-timing-function: cubic-bezier(0.22, 1, 0.36, 1) !important;
 }
 
 ::view-transition-group(site-header),

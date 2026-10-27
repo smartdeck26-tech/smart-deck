@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { flushSync } from "react-dom";
 
-export const THEME_KEY = "smartdeck-theme";
+export const THEME_KEY = "smartdeck-theme"; // "light" | "dark" | "system"
 const LIGHT_COLOR = "#024C99";
 const DARK_COLOR = "#0a1424";
 
@@ -28,11 +28,14 @@ export function applyMode(mode) {
     ?.setAttribute("content", dark ? DARK_COLOR : LIGHT_COLOR);
 }
 
+// Panggil sekali (di Navbar). Mode "system" mengikuti pengaturan perangkat
+// dan ikut berubah otomatis saat pengaturan perangkat berubah.
 export function useTheme() {
   const [mode, setModeState] = useState(getStoredMode);
   const modeRef = useRef(mode);
   modeRef.current = mode;
 
+  // Terapkan saat mode berubah (mis. dari pengaturan perangkat atau muat awal).
   useEffect(() => {
     applyMode(mode);
     if (mode !== "system") return;
@@ -49,12 +52,18 @@ export function useTheme() {
     try {
       localStorage.setItem(THEME_KEY, next);
     } catch {
-      
+      /* penyimpanan diblokir: tetap jalan tanpa menyimpan */
     }
 
     const root = document.documentElement;
 
-    if (document.startViewTransition && !reducedMotion()) {
+    // Cara utama: View Transitions. Browser memotret tampilan lama dan baru,
+    // lalu cross-fade seluruh halaman sekaligus. Tidak ada elemen yang
+    // berganti warna satu per satu, jadi tidak patah-patah.
+    // Dilewati di layar kecil: Chrome Android menghilangkan navbar sticky
+    // selama transisi, jadi mobile memakai cadangan di bawah.
+    const isMobile = window.matchMedia("(max-width: 767px)").matches;
+    if (document.startViewTransition && !reducedMotion() && !isMobile) {
       document.startViewTransition(() => {
         flushSync(() => setModeState(next));
         applyMode(next);
@@ -62,9 +71,10 @@ export function useTheme() {
       return;
     }
 
+    // Cadangan untuk browser lama: transisi warna singkat.
     if (!reducedMotion()) {
       root.classList.add("theme-fade");
-      setTimeout(() => root.classList.remove("theme-fade"), 400);
+      setTimeout(() => root.classList.remove("theme-fade"), 500);
     }
     setModeState(next);
   }, []);
