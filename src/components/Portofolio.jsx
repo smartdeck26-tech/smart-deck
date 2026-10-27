@@ -22,8 +22,8 @@ const karya = [
     judul: "Fotonya Rizki",
     jenis: "cahaya",
     jenjang: "SMP",
-    sebelum: "/portofolio/sebelum.jpg",
-    sesudah: "/portofolio/sesudah.jpg",
+    sebelum: "/public/portofolio/sebelum.jpg",
+    sesudah: "/public/portofolio/sesudah.jpg",
     link: "https://www.instagram.com/rzkyasunee_"
   }
 ];
