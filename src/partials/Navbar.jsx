@@ -18,7 +18,10 @@ export default function Navbar() {
   const closeMenu = () => setMenuOpen(false);
 
   return (
-    <header className="sticky top-0 z-40 border-b border-blue-50 bg-white/90 shadow-sm backdrop-blur-xl">
+    <header
+      style={{ viewTransitionName: "site-header" }}
+      className="sticky top-0 z-40 border-b border-blue-50 bg-white/90 shadow-sm backdrop-blur-xl"
+    >
       <nav className="relative mx-auto flex max-w-7xl items-center justify-between px-5 py-3 sm:px-8">
         <Brand />
 
