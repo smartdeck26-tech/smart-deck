@@ -45,6 +45,24 @@ const benefits = [
   },
 ];
 
+const proses = [
+  {
+    icon: "⏱️",
+    title: "Estimasi 1–3 hari",
+    desc: "Waktu pengerjaan menyesuaikan jumlah materi dan tingkat kerumitan desain.",
+  },
+  {
+    icon: "🔁",
+    title: "1 kali revisi",
+    desc: "Satu kali revisi setelah draf diterima, agar hasil sesuai kebutuhan kelas Anda.",
+  },
+  {
+    icon: "🔗",
+    title: "Link Canva siap pakai",
+    desc: "Hasil diserahkan berupa link Canva yang langsung bisa digunakan.",
+  },
+];
+
 const SectionHeading = ({ eyebrow, title, desc }) => (
   <div className="mx-auto mb-12 max-w-3xl text-center">
     <p className="mb-3 text-sm font-extrabold uppercase tracking-widest text-[#F7963A]">
@@ -119,7 +137,28 @@ const Paket = () => {
           ))}
         </div>
 
-       
+        <div className="mt-8 rounded-3xl bg-gradient-to-r from-[#024C99] to-[#009DFC] p-6 text-white sm:p-8">
+          <p className="text-xs font-extrabold uppercase tracking-[.22em] text-white/70">
+            Proses pemesanan
+          </p>
+
+          <div className="mt-5 grid gap-4 md:grid-cols-3">
+            {proses.map((item) => (
+              <div
+                key={item.title}
+                className="rounded-2xl bg-white/10 p-5 backdrop-blur-sm"
+              >
+                <span className="text-2xl" aria-hidden="true">
+                  {item.icon}
+                </span>
+                <h3 className="mt-3 text-lg font-black">{item.title}</h3>
+                <p className="mt-2 text-sm leading-6 text-white/80">
+                  {item.desc}
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
       </div>
     </section>
   );

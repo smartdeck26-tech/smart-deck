@@ -1,3 +1,6 @@
+import { useEffect, useState } from "react";
+import { fetchPublicData, ratingSummary } from "../lib/publicData";
+
 const CanvaPreview = () => {
   return (
     <div className="relative mx-auto max-w-lg">
@@ -96,6 +99,46 @@ const CanvaPreview = () => {
   );
 };
 
+const SocialProof = () => {
+  const [data, setData] = useState(null);
+
+  useEffect(() => {
+    let active = true;
+    fetchPublicData().then((d) => active && setData(d));
+    return () => {
+      active = false;
+    };
+  }, []);
+
+  const rating = ratingSummary(data?.testimonials);
+  const visitors = Number(data?.visitorCount) || 0;
+
+  return (
+    <div className="mt-6 flex min-h-[3.25rem] flex-wrap items-center gap-3">
+      {rating && (
+        <div className="flex items-center gap-2 rounded-2xl border border-orange-100 bg-orange-50/70 px-4 py-2">
+          <span className="text-lg text-[#F7963A]" aria-hidden="true">★</span>
+          <p className="text-sm font-bold text-slate-700">
+            {rating.avg}/5
+            <span className="font-semibold text-slate-500">
+              {" "}dari {rating.count} ulasan
+            </span>
+          </p>
+        </div>
+      )}
+      {visitors > 0 && (
+        <div className="flex items-center gap-2 rounded-2xl border border-blue-100 bg-blue-50/70 px-4 py-2">
+          <span className="text-lg" aria-hidden="true">👀</span>
+          <p className="text-sm font-bold text-slate-700">
+            {visitors.toLocaleString("id-ID")}
+            <span className="font-semibold text-slate-500"> pengunjung</span>
+          </p>
+        </div>
+      )}
+    </div>
+  );
+};
+
 const Home = () => {
   return (
     <section
@@ -145,6 +188,8 @@ const Home = () => {
           <span>✓ Materi dan evaluasi terpadu</span>
           <span>✓ Lebih menarik untuk siswa</span>
         </div>
+
+        <SocialProof />
       </div>
 
       {/* Ilustrasi media pembelajaran */}

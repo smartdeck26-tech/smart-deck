@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-const faqs = [
+export const faqs = [
   {
     q: "Apa itu SmartDeck?",
     a: "SmartDeck adalah jasa pembuatan media pembelajaran interaktif yang menggabungkan Canva untuk penyajian materi dan Wordwall untuk latihan atau evaluasi.",
@@ -15,7 +15,31 @@ const faqs = [
   },
   {
     q: "Bagaimana cara memulai pemesanan?",
-    a: "Mulai Konsultasi dengan menekan tombol 'Konsultasi Sekarang'. Tombol ini akan mengarahkan anda ke Whatsapp untuk berdiskusi lebih lanjut terkait apa yang ingin anda buat. ",
+    a: "Mulai Konsultasi dengan menekan tombol 'Konsultasi Sekarang'. Tombol ini akan mengarahkan anda ke Whatsapp untuk berdiskusi lebih lanjut terkait apa yang ingin anda buat.",
+  },
+  {
+    q: "Berapa harga jasanya?",
+    a: "Harga menyesuaikan kebutuhan dan jumlah materi. Hubungi admin lewat WhatsApp untuk mendapatkan penawaran yang sesuai.",
+  },
+  {
+    q: "Berapa lama pengerjaannya?",
+    a: "Estimasi pengerjaan 1–3 hari, tergantung jumlah materi dan tingkat kerumitan desain.",
+  },
+  {
+    q: "Apakah ada revisi?",
+    a: "Ada. Setiap pemesanan mendapatkan 1 kali revisi setelah draf Anda terima.",
+  },
+  {
+    q: "Hasilnya diserahkan dalam bentuk apa?",
+    a: "Hasil diserahkan berupa link Canva yang langsung bisa Anda gunakan.",
+  },
+  {
+    q: "Bagaimana sistem pembayarannya?",
+    a: "Metode dan waktu pembayaran dibahas saat konsultasi bersama admin.",
+  },
+  {
+    q: "Apakah saya perlu akun berbayar Canva atau Wordwall?",
+    a: "Hal ini dibahas saat konsultasi, menyesuaikan kebutuhan dan fitur yang Anda inginkan.",
   },
 ];
 
