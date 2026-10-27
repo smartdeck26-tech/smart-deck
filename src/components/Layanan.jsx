@@ -78,7 +78,7 @@ const Layanan = () => {
                         : "bg-blue-50"
                   }`}
                 >
-                  {s.icon}
+                  <span aria-hidden="true">{s.icon}</span>
                 </span>
 
                 <span className="text-sm font-black text-slate-300">
@@ -111,7 +111,7 @@ const Layanan = () => {
                 className="mt-7 inline-flex items-center gap-2 font-extrabold text-[#024C99] transition-all group-hover:gap-3"
               >
                 Diskusikan kebutuhan
-                <span className="text-[#F7963A]">→</span>
+                <span aria-hidden="true" className="text-[#F7963A]">→</span>
               </a>
             </article>
           ))}

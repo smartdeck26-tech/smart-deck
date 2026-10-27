@@ -95,7 +95,7 @@ const Kontak = () => {
                 className="flex items-center gap-4 rounded-2xl border border-blue-100 bg-white p-4 transition hover:border-[#009DFC] hover:shadow-md"
               >
                 <span className="grid h-12 w-12 shrink-0 place-items-center rounded-xl bg-blue-50 text-xl">
-                  {item.icon}
+                  <span aria-hidden="true">{item.icon}</span>
                 </span>
 
                 <div>

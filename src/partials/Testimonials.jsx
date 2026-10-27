@@ -203,6 +203,7 @@ async function handleSubmit(e) {
                           {item.date}
                         </p>
                     <div
+                      role="img"
                       className="mt-2 text-lg tracking-wider text-amber-400"
                       aria-label={`Rating ${item.rating} dari 5`}
                     >

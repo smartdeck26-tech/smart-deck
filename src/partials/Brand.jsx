@@ -10,6 +10,9 @@ export default function Brand({ light = false }) {
         src="/logo.png"
         className="h-auto w-40"
         alt="Logo SmartDeck"
+        width={3565}
+        height={992}
+        decoding="async"
       />
     </a>
   );

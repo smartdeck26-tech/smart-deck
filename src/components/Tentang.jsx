@@ -43,17 +43,17 @@ const Tentang = () => {
 
             <div className="mt-8 flex flex-wrap gap-3">
               <div className="rounded-2xl bg-white/10 p-4">
-                <p className="text-2xl">🎨</p>
+                <p aria-hidden="true" className="text-2xl">🎨</p>
                 <p className="mt-2 text-sm font-extrabold">Visual</p>
               </div>
 
               <div className="rounded-2xl bg-white/10 p-4">
-                <p className="text-2xl">🧩</p>
+                <p aria-hidden="true" className="text-2xl">🧩</p>
                 <p className="mt-2 text-sm font-extrabold">Interaktif</p>
               </div>
 
               <div className="rounded-2xl bg-white/10 p-4">
-                <p className="text-2xl">🎯</p>
+                <p aria-hidden="true" className="text-2xl">🎯</p>
                 <p className="mt-2 text-sm font-extrabold">Terarah</p>
               </div>
             </div>
@@ -101,7 +101,7 @@ const Tentang = () => {
             href="#layanan"
             className="mt-8 inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-[#024C99] to-[#009DFC] px-6 py-3 font-extrabold text-white shadow-lg shadow-blue-100 transition hover:-translate-y-1"
           >
-            Lihat layanan kami <span className="text-[#F7963A]">→</span>
+            Lihat layanan kami <span aria-hidden="true" className="text-[#F7963A]">→</span>
           </a>
         </div>
       </div>

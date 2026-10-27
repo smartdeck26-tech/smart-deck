@@ -41,13 +41,13 @@ const CanvaPreview = () => {
           </p>
 
           <div className="mt-6 flex gap-3">
-            <div className="grid h-12 w-12 place-items-center rounded-2xl bg-white text-xl">
+            <div aria-hidden="true" className="grid h-12 w-12 place-items-center rounded-2xl bg-white text-xl">
               📚
             </div>
-            <div className="grid h-12 w-12 place-items-center rounded-2xl bg-[#F7963A] text-xl">
+            <div aria-hidden="true" className="grid h-12 w-12 place-items-center rounded-2xl bg-[#F7963A] text-xl">
               💡
             </div>
-            <div className="grid h-12 w-12 place-items-center rounded-2xl bg-white/20 text-xl">
+            <div aria-hidden="true" className="grid h-12 w-12 place-items-center rounded-2xl bg-white/20 text-xl">
               ✨
             </div>
           </div>
@@ -62,7 +62,7 @@ const CanvaPreview = () => {
               <p className="mt-1 font-black text-slate-800">Uji pemahamanmu!</p>
             </div>
 
-            <div className="grid h-12 w-12 place-items-center rounded-xl bg-[#F7963A] text-2xl">
+            <div aria-hidden="true" className="grid h-12 w-12 place-items-center rounded-xl bg-[#F7963A] text-2xl">
               🎮
             </div>
           </div>
@@ -85,14 +85,14 @@ const CanvaPreview = () => {
       <div className="absolute -left-3 top-24 rounded-2xl border border-blue-100 bg-white p-3 shadow-lg sm:-left-8">
         <p className="text-xs font-bold text-slate-400">Media kreatif</p>
         <p className="mt-1 text-sm font-black text-[#024C99]">
-          🎨 Canva
+          <span aria-hidden="true">🎨</span> Canva
         </p>
       </div>
 
       <div className="absolute -bottom-4 right-0 rounded-2xl border border-orange-100 bg-white p-3 shadow-lg sm:-right-5">
         <p className="text-xs font-bold text-slate-400">Belajar aktif</p>
         <p className="mt-1 text-sm font-black text-[#D97720]">
-          🎯 Wordwall
+          <span aria-hidden="true">🎯</span> Wordwall
         </p>
       </div>
     </div>
@@ -150,7 +150,7 @@ const Home = () => {
       {/* Konten utama */}
       <div className="relative z-10">
         <span className="inline-flex items-center gap-2 rounded-full border border-blue-100 bg-blue-50/70 px-4 py-2 text-sm font-bold text-[#024C99]">
-          <span className="text-[#F7963A]">✦</span>
+          <span aria-hidden="true" className="text-[#F7963A]">✦</span>
           Partner media pembelajaran kreatif
         </span>
 
@@ -184,9 +184,9 @@ const Home = () => {
         </div>
 
         <div className="mt-10 flex flex-wrap gap-x-6 gap-y-3 text-sm font-semibold text-slate-500">
-          <span>✓ Desain sesuai kebutuhan</span>
-          <span>✓ Materi dan evaluasi terpadu</span>
-          <span>✓ Lebih menarik untuk siswa</span>
+          <span><span aria-hidden="true">✓ </span>Desain sesuai kebutuhan</span>
+          <span><span aria-hidden="true">✓ </span>Materi dan evaluasi terpadu</span>
+          <span><span aria-hidden="true">✓ </span>Lebih menarik untuk siswa</span>
         </div>
 
         <SocialProof />

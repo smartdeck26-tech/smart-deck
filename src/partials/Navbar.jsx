@@ -30,6 +30,7 @@ export default function Navbar() {
           aria-controls="mobile-menu"
         >
           <span
+            aria-hidden="true"
             className={`block transition-transform duration-300 ${
               menuOpen ? "rotate-90" : "rotate-0"
             }`}

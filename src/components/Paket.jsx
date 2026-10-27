@@ -103,7 +103,7 @@ const Paket = () => {
               <div className="relative">
                 <div className="flex items-center justify-between">
                   <span className="grid h-14 w-14 place-items-center rounded-2xl bg-blue-50 text-2xl">
-                    {item.icon}
+                    <span aria-hidden="true">{item.icon}</span>
                   </span>
 
                   <span className="text-sm font-black text-slate-300">
@@ -125,7 +125,7 @@ const Paket = () => {
                       key={detail}
                       className="flex items-start gap-3 text-sm leading-6 text-slate-600"
                     >
-                      <span className="mt-0.5 grid h-5 w-5 shrink-0 place-items-center rounded-full bg-blue-50 text-xs font-black text-[#024C99]">
+                      <span aria-hidden="true" className="mt-0.5 grid h-5 w-5 shrink-0 place-items-center rounded-full bg-blue-50 text-xs font-black text-[#024C99]">
                         ✓
                       </span>
                       <span>{detail}</span>

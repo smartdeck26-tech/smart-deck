@@ -7,21 +7,21 @@ export default function AlurPembelajaran() {
         </span>
 
         <span className="flex items-center gap-2 font-extrabold text-[#024C99]">
-          <span className="grid h-8 w-8 place-items-center rounded-lg bg-white shadow-sm">
+          <span aria-hidden="true" className="grid h-8 w-8 place-items-center rounded-lg bg-white shadow-sm">
             🎨
           </span>
-          Canva <span className="text-[#F7963A]">→</span>
+          Canva <span aria-hidden="true" className="text-[#F7963A]">→</span>
         </span>
 
         <span className="flex items-center gap-2 font-extrabold text-[#024C99]">
-          <span className="grid h-8 w-8 place-items-center rounded-lg bg-white shadow-sm">
+          <span aria-hidden="true" className="grid h-8 w-8 place-items-center rounded-lg bg-white shadow-sm">
             🎮
           </span>
-          Wordwall <span className="text-[#F7963A]">→</span>
+          Wordwall <span aria-hidden="true" className="text-[#F7963A]">→</span>
         </span>
 
         <span className="flex items-center gap-2 font-extrabold text-[#024C99]">
-          <span className="grid h-8 w-8 place-items-center rounded-lg bg-white shadow-sm">
+          <span aria-hidden="true" className="grid h-8 w-8 place-items-center rounded-lg bg-white shadow-sm">
             💡
           </span>
           Pengalaman belajar lebih aktif
