@@ -16,7 +16,17 @@ import { trackClick } from "../lib/track";
     link: "https://www.canva.com/...",      // opsional, tombol "Lihat demo"
   }
 */
-const karya = [];
+const karya = [
+  {
+    id: "iki asune",
+    judul: "Fotonya Rizki",
+    jenis: "cahaya",
+    jenjang: "SMP",
+    sebelum: "/portofolio/sebelum.jpg",
+    sesudah: "/portofolio/sesudah.jpg",
+    link: "https://www.instagram.com/rzkyasunee_"
+  }
+];
 
 const Kartu = ({ item }) => {
   const [lihat, setLihat] = useState("sesudah");
