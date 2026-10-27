@@ -109,22 +109,28 @@ a.rounded-full:active, form button:active, header button:active { scale: 0.97; }
   .wa-ring { display: none; }
 }
 
-/* ---- Tombol WhatsApp mengambang: kedip-kedip ---- */
-.wa-blink { animation: wa-blink 2.4s ease-in-out infinite; }
-@keyframes wa-blink {
-  0%, 40%, 100% { opacity: 1; filter: brightness(1); }
-  10%, 30% { opacity: 0.25; filter: brightness(1.3); }
-  20% { opacity: 1; filter: brightness(1); }
+/* ---- Tombol WhatsApp mengambang: muncul-hilang-muncul ---- */
+.wa-popup {
+  transform-origin: bottom right;
+  animation: wa-popup 3.5s ease-in-out infinite;
+}
+@keyframes wa-popup {
+  0%   { opacity: 0; transform: scale(0.4) translateY(20px); }
+  8%   { opacity: 1; transform: scale(1.12) translateY(-4px); }
+  14%  { opacity: 1; transform: scale(1) translateY(0); }
+  70%  { opacity: 1; transform: scale(1) translateY(0); }
+  80%  { opacity: 0; transform: scale(0.4) translateY(20px); }
+  100% { opacity: 0; transform: scale(0.4) translateY(20px); }
 }
 
-/* berhenti saat disorot, supaya mudah diklik */
-.wa-blink:hover { animation: none; }
+/* berhenti dan tampil penuh saat disorot, supaya mudah diklik */
+.wa-popup:hover { animation: none; opacity: 1; }
 
-/* kurangi animasi: kedip pelan saja */
+/* kurangi animasi: muncul-hilang lewat transparansi saja */
 @media (prefers-reduced-motion: reduce) {
-  .wa-blink { animation: wa-blink-soft 2.4s ease-in-out infinite !important; }
-  @keyframes wa-blink-soft {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.55; }
+  .wa-popup { animation: wa-popup-soft 3.5s ease-in-out infinite !important; }
+  @keyframes wa-popup-soft {
+    0%, 15%, 70%, 100% { opacity: 1; }
+    80%, 90% { opacity: 0; }
   }
 }
