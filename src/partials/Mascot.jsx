@@ -2,13 +2,42 @@ import { useEffect, useId, useState } from "react";
 import { waLink } from "../config";
 import { trackClick } from "../lib/track";
 
-const messages = [
-  "Halo! Aku Deki \u{1F44B}",
-  "Mau media belajar yang seru?",
-  "Kuis Wordwall bikin siswa semangat!",
-  "Klik aku untuk konsultasi gratis!",
+const greetings = [
+  { id: "sapa-deki", text: "Halo! Aku Deki \u{1F44B}" },
+  { id: "sapa-guru", text: "Hai, Bapak/Ibu Guru! \u{1F44B}" },
 ];
-const last = messages.length - 1;
+const values = [
+  { id: "nilai-seru", text: "Mau media belajar yang seru?" },
+  { id: "nilai-wordwall", text: "Kuis Wordwall bikin siswa semangat!" },
+  { id: "nilai-canva", text: "Materi Canva rapi, siap pakai!" },
+  { id: "nilai-desain", text: "Desain sesuai kebutuhan kelasmu" },
+  { id: "nilai-evaluasi", text: "Evaluasi interaktif, siswa tidak bosan" },
+];
+const ctas = [
+  { id: "ajak-konsultasi", text: "Klik aku untuk konsultasi gratis!" },
+  { id: "ajak-cerita", text: "Ceritakan kebutuhanmu, aku bantu!" },
+];
+
+const VALUE_COUNT = 3;
+const STEP_MS = 4200;
+const FIRST_DELAY_MS = 1400;
+
+const pick = (list) => list[Math.floor(Math.random() * list.length)];
+
+const shuffle = (list) => {
+  const copy = [...list];
+  for (let i = copy.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [copy[i], copy[j]] = [copy[j], copy[i]];
+  }
+  return copy;
+};
+
+const buildSequence = () => [
+  pick(greetings),
+  ...shuffle(values).slice(0, VALUE_COUNT),
+  pick(ctas),
+];
 
 const prefersReducedMotion = () =>
   typeof window !== "undefined" &&
@@ -17,19 +46,34 @@ const prefersReducedMotion = () =>
 export default function Mascot({ variant = "preview" }) {
   const gradId = `sdBody${useId().replace(/:/g, "")}`;
   const isTop = variant === "top";
+  const [sequence] = useState(buildSequence);
+  const last = sequence.length - 1;
+
   const [index, setIndex] = useState(() => (prefersReducedMotion() ? last : 0));
   const [ready, setReady] = useState(false);
+  const [tabVisible, setTabVisible] = useState(
+    () => typeof document === "undefined" || !document.hidden
+  );
 
   useEffect(() => {
-    const timer = setTimeout(() => setReady(true), 1400);
+    const timer = setTimeout(() => setReady(true), FIRST_DELAY_MS);
     return () => clearTimeout(timer);
   }, []);
 
   useEffect(() => {
-    if (!ready || index >= last) return;
-    const timer = setTimeout(() => setIndex(index + 1), 4200);
+    const onChange = () => setTabVisible(!document.hidden);
+    document.addEventListener("visibilitychange", onChange);
+    return () => document.removeEventListener("visibilitychange", onChange);
+  }, []);
+
+  useEffect(() => {
+    if (!ready || !tabVisible || index >= last) return;
+    const timer = setTimeout(() => setIndex(index + 1), STEP_MS);
     return () => clearTimeout(timer);
-  }, [ready, index]);
+  }, [ready, tabVisible, index, last]);
+
+  const current = sequence[index];
+  const source = isTop ? "maskot-top" : "maskot";
 
   return (
     <div
@@ -43,7 +87,7 @@ export default function Mascot({ variant = "preview" }) {
         href={waLink("Halo SmartDeck, saya ingin konsultasi tentang media pembelajaran.")}
         target="_blank"
         rel="noopener noreferrer"
-        onClick={() => trackClick(isTop ? "maskot-top" : "maskot")}
+        onClick={() => trackClick(`${source}:${current.id}`)}
         aria-label="Chat SmartDeck lewat WhatsApp bersama maskot Deki"
         className="sd-mascot flex items-start gap-2 rounded-3xl outline-offset-4"
       >
@@ -53,8 +97,8 @@ export default function Mascot({ variant = "preview" }) {
             ready ? "opacity-100" : "opacity-0"
           }`}
         >
-          <span key={index} className="sd-bubble-text block">
-            {messages[index]}
+          <span key={current.id} className="sd-bubble-text block">
+            {current.text}
           </span>
           <span className="absolute -right-1.5 top-4 h-3 w-3 rotate-45 border-r border-t border-blue-100 bg-white" />
         </span>
