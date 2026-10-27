@@ -18,13 +18,13 @@ import { trackClick } from "../lib/track";
 */
 const karya = [
   {
-    id: "iki asune",
-    judul: "Fotonya Rizki",
-    jenis: "cahaya",
-    jenjang: "SMP",
+    id: "ppkn-perilaku pancasila",
+    judul: "Aku Berperilaku Pancasila",
+    jenis: "PPKn",
+    jenjang: "SD",
     sebelum: "/portofolio/sebelum.jpg",
-    sesudah: "/portofolio/sesudah.jpg",
-    link: "https://www.instagram.com/rzkyasunee_"
+    sesudah: "/portofolio/sesudah.png",
+    link: "https://canva.link/z181uaqywb2f1rm"
   }
 ];
 
