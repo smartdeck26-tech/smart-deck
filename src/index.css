@@ -1,5 +1,7 @@
 @import "tailwindcss";
 
+@custom-variant dark (&:where(.dark, .dark *));
+
 @theme {
   --default-transition-duration: 350ms;
   --default-transition-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
@@ -184,4 +186,53 @@ a.rounded-full:active, form button:active, header button:active { scale: 0.97; }
     animation: none !important;
   }
   .sd-spark { opacity: 1; }
+}
+
+/* ================= MODE GELAP =================
+   Kelas "dark" dipasang di <html> oleh src/lib/theme.js.
+   Palet slate/blue/orange ditukar lewat variabel tema Tailwind, jadi semua
+   komponen ikut berubah tanpa mengedit kelasnya satu per satu. */
+html.dark {
+  --color-slate-50: #14233a;
+  --color-slate-100: #1b2b45;
+  --color-slate-200: #2a3d5c;
+  --color-slate-300: #4b5d78;
+  --color-slate-400: #8294ae;
+  --color-slate-500: #a3b3c9;
+  --color-slate-600: #bac7da;
+  --color-slate-700: #cfd9e6;
+  --color-slate-800: #e2e8f0;
+  --color-slate-900: #f1f5f9;
+
+  --color-blue-50: #12243f;
+  --color-blue-100: #1c3659;
+  --color-blue-200: #27507f;
+
+  --color-orange-50: #2b1e11;
+  --color-orange-100: #3d2915;
+
+  color: #dbe5f1;
+  background: #0a1424;
+}
+html.dark body { background: #0a1424; }
+
+/* warna yang ditulis langsung (bukan dari palet) */
+html.dark .bg-white { background-color: #101d33; }
+html.dark .bg-white\/90 { background-color: rgb(10 20 36 / 0.9); }
+html.dark .bg-\[\#F7FBFF\] { background-color: #0d1930; }
+html.dark .text-\[\#024C99\],
+html.dark .hover\:text-\[\#024C99\]:hover { color: #8cc8ff; }
+html.dark .text-blue-50 { color: #eaf4ff; } /* teks di atas gradien biru */
+html.dark .bg-clip-text { --tw-gradient-from: #6cbcff; } /* judul gradien di hero */
+
+/* kolom isian */
+html.dark input,
+html.dark textarea,
+html.dark select { color: #e2e8f0; }
+html.dark input::placeholder,
+html.dark textarea::placeholder { color: #7b8aa0; }
+
+/* halus saat berganti tema */
+html.theme-fade, html.theme-fade * {
+  transition: background-color 300ms ease, border-color 300ms ease, color 300ms ease !important;
 }

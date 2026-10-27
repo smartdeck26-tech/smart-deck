@@ -13,53 +13,61 @@ function targetTop(el) {
   return Math.max(0, Math.min(Math.round(top), Math.round(max)));
 }
 
-// Setelah scroll berhenti, cek ulang posisi. Layout bisa bergeser selama
-// animasi (font, data testimoni, bilah alamat HP naik/turun), jadi koreksi.
-function settle(el) {
+// Percepatan lembut di awal, perlambatan lembut di akhir.
+const easeInOut = (t) =>
+  t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+
+// Atur kecepatan di sini. Naikkan angkanya = scroll makin lambat.
+const MIN_MS = 900; // durasi terpendek (jarak dekat)
+const MAX_MS = 2000; // durasi terpanjang (jarak jauh)
+const MS_PER_PX = 0.5; // tambahan durasi per piksel jarak
+
+const STOP_EVENTS = ["wheel", "touchstart", "keydown", "mousedown"];
+let cancelCurrent = null;
+
+function jump(top) {
+  window.scrollTo({ top, behavior: "instant" });
+}
+
+function animateTo(el) {
+  cancelCurrent?.();
+
+  const startY = window.scrollY;
+  const distance = Math.abs(targetTop(el) - startY);
+  if (distance < 2) return;
+
+  const duration = Math.min(MAX_MS, Math.max(MIN_MS, 600 + distance * MS_PER_PX));
   const startedAt = performance.now();
-  let lastY = window.scrollY;
-  let lastMove = startedAt;
-  let fixes = 0;
   let raf;
 
   const stop = () => {
     cancelAnimationFrame(raf);
-    ["wheel", "touchstart", "keydown"].forEach((type) =>
-      window.removeEventListener(type, stop)
-    );
+    STOP_EVENTS.forEach((type) => window.removeEventListener(type, stop));
+    cancelCurrent = null;
   };
+  cancelCurrent = stop;
 
   // Pengguna mulai scroll sendiri: jangan dilawan.
-  ["wheel", "touchstart", "keydown"].forEach((type) =>
-    window.addEventListener(type, stop, { passive: true, once: true })
+  STOP_EVENTS.forEach((type) =>
+    window.addEventListener(type, stop, { passive: true })
   );
 
-  const check = (now) => {
-    if (window.scrollY !== lastY) {
-      lastY = window.scrollY;
-      lastMove = now;
-    }
+  const step = (now) => {
+    const p = Math.min(1, (now - startedAt) / duration);
+    // Target dihitung ulang tiap frame, jadi tetap pas walau layout bergeser
+    // (font, data testimoni, bilah alamat HP naik/turun).
+    const end = targetTop(el);
+    jump(startY + (end - startY) * easeInOut(p));
 
-    const idle = now - lastMove > 150;
-    if (idle) {
-      if (Math.abs(targetTop(el) - window.scrollY) > 1 && fixes < 3) {
-        fixes += 1;
-        window.scrollTo({ top: targetTop(el), behavior: "auto" });
-        lastMove = now;
-      } else {
-        stop();
-        return;
-      }
-    }
-
-    if (now - startedAt > 3000) {
+    if (p < 1) {
+      raf = requestAnimationFrame(step);
+    } else {
+      jump(targetTop(el));
       stop();
-      return;
     }
-    raf = requestAnimationFrame(check);
   };
 
-  raf = requestAnimationFrame(check);
+  raf = requestAnimationFrame(step);
 }
 
 export function scrollToId(id, { smooth = true } = {}) {
@@ -70,11 +78,12 @@ export function scrollToId(id, { smooth = true } = {}) {
     "(prefers-reduced-motion: reduce)"
   ).matches;
 
-  window.scrollTo({
-    top: targetTop(el),
-    behavior: smooth && !reduce ? "smooth" : "auto",
-  });
-  settle(el);
+  if (smooth && !reduce) {
+    animateTo(el);
+  } else {
+    cancelCurrent?.();
+    jump(targetTop(el));
+  }
   return true;
 }
 
@@ -116,6 +125,9 @@ export function useAnchorScroll() {
       );
     }
 
-    return () => document.removeEventListener("click", onClick);
+    return () => {
+      document.removeEventListener("click", onClick);
+      cancelCurrent?.();
+    };
   }, []);
 }

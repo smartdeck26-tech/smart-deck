@@ -2,16 +2,18 @@ import { useState } from "react";
 import Brand from "./Brand";
 import { nomorwa } from "../config";
 import { trackClick } from "../lib/track";
+import { useTheme } from "../lib/theme";
+import ThemeToggle from "./ThemeToggle";
 
 const nav = [
   ["Beranda", "#home"],
   ["Layanan", "#layanan"],
   ["Tentang", "#tentang"],
- 
 ];
 
 export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const { mode, setMode } = useTheme();
 
   const closeMenu = () => setMenuOpen(false);
 
@@ -51,6 +53,8 @@ export default function Navbar() {
             </a>
           ))}
 
+          <ThemeToggle mode={mode} setMode={setMode} />
+
           <a
             onClick={() => trackClick("navbar")}
             href={`https://wa.me/${nomorwa}?text=${encodeURIComponent(
@@ -58,7 +62,7 @@ export default function Navbar() {
             )}`}
             target="_blank"
             rel="noopener noreferrer"
-            className="ml-1 rounded-full bg-gradient-to-r from-[#024C99] to-[#009DFC] px-5 py-3 text-center text-sm font-extrabold text-white shadow-lg shadow-blue-200 transition hover:-translate-y-0.5"
+            className="rounded-full bg-gradient-to-r from-[#024C99] to-[#009DFC] px-5 py-3 text-center text-sm font-extrabold text-white shadow-lg shadow-blue-200 transition hover:-translate-y-0.5"
           >
             Konsultasi gratis ↗
           </a>
@@ -93,6 +97,10 @@ export default function Navbar() {
                   {label}
                 </a>
               ))}
+
+              <div className="mt-2">
+                <ThemeToggle mode={mode} setMode={setMode} showLabel />
+              </div>
 
               <a
                 href={`https://wa.me/${nomorwa}?text=${encodeURIComponent(
