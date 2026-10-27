@@ -1,5 +1,9 @@
 import { useEffect, useState } from "react";
-import { fetchPublicData, ratingSummary } from "../lib/publicData";
+import {
+  fetchPublicData,
+  getCachedPublicData,
+  ratingSummary,
+} from "../lib/publicData";
 import useCountUp from "../lib/useCountUp";
 import Mascot from "../partials/Mascot";
 
@@ -104,11 +108,17 @@ const CanvaPreview = () => {
 };
 
 const SocialProof = () => {
-  const [data, setData] = useState(null);
+  // Tampilkan data lama dulu (kalau ada), lalu timpa dengan data terbaru.
+  const [data, setData] = useState(() => getCachedPublicData());
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     let active = true;
-    fetchPublicData().then((d) => active && setData(d));
+    fetchPublicData().then((d) => {
+      if (!active) return;
+      if (d) setData(d);
+      setLoading(false);
+    });
     return () => {
       active = false;
     };
@@ -131,7 +141,7 @@ const SocialProof = () => {
           </p>
         </div>
       )}
-      {visitors > 0 && (
+      {visitors > 0 ? (
         <div className="flex items-center gap-2 rounded-2xl border border-blue-100 bg-blue-50/70 px-4 py-2">
           <span className="text-lg" aria-hidden="true">👀</span>
           <p className="text-sm font-bold text-slate-700">
@@ -142,6 +152,13 @@ const SocialProof = () => {
             <span className="font-semibold text-slate-500"> pengunjung</span>
           </p>
         </div>
+      ) : (
+        loading && (
+          <div
+            aria-hidden="true"
+            className="h-10 w-36 animate-pulse rounded-2xl border border-blue-100 bg-blue-50/70"
+          />
+        )
       )}
     </div>
   );

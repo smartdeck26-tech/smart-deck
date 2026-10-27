@@ -3,7 +3,7 @@ import { waLink } from "../config";
 import { trackClick } from "../lib/track";
 
 const greetings = [
-  { id: "sapa-deki", text: "Halo! Aku Deki \u{1F44B}" },
+  { id: "sapa-decky", text: "Halo! Aku Decky \u{1F44B}" },
   { id: "sapa-guru", text: "Hai, Bapak/Ibu Guru! \u{1F44B}" },
 ];
 const values = [

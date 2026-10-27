@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { SCRIPT_URL } from "../config";
-import { getVisitorId } from "../lib/track";
+import { trackVisit } from "../lib/track";
 import { fetchPublicData } from "../lib/publicData";
 
 export default function Testimoni() {
@@ -21,18 +21,8 @@ export default function Testimoni() {
     let active = true;
 
     try {
-      const visitorId = getVisitorId();
-
-      // Catat pengunjung unik. ID yang sama tidak menambah hitungan.
-      fetch(SCRIPT_URL, {
-        method: "POST",
-        mode: "no-cors",
-        headers: { "Content-Type": "text/plain;charset=utf-8" },
-        body: JSON.stringify({
-          action: "visit",
-          visitorId,
-        }),
-      }).catch(() => {});
+      // Kunjungan dicatat sekali (dibagi dengan fetchPublicData).
+      trackVisit();
 
       fetchPublicData().then((data) => {
         if (!active || !data) return;
