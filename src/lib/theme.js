@@ -1,10 +1,13 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
+import { flushSync } from "react-dom";
 
-export const THEME_KEY = "smartdeck-theme"; // "light" | "dark" | "system"
+export const THEME_KEY = "smartdeck-theme";
 const LIGHT_COLOR = "#024C99";
 const DARK_COLOR = "#0a1424";
 
 const darkQuery = () => window.matchMedia("(prefers-color-scheme: dark)");
+const reducedMotion = () =>
+  window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
 
 export function getStoredMode() {
   try {
@@ -25,10 +28,10 @@ export function applyMode(mode) {
     ?.setAttribute("content", dark ? DARK_COLOR : LIGHT_COLOR);
 }
 
-// Panggil sekali (di Navbar). Mode "system" mengikuti pengaturan perangkat
-// dan ikut berubah otomatis saat pengaturan perangkat berubah.
 export function useTheme() {
   const [mode, setModeState] = useState(getStoredMode);
+  const modeRef = useRef(mode);
+  modeRef.current = mode;
 
   useEffect(() => {
     applyMode(mode);
@@ -41,15 +44,28 @@ export function useTheme() {
   }, [mode]);
 
   const setMode = useCallback((next) => {
+    if (next === modeRef.current) return;
+
     try {
       localStorage.setItem(THEME_KEY, next);
     } catch {
-      /* penyimpanan diblokir: tetap jalan tanpa menyimpan */
+      
     }
-    // transisi warna singkat hanya saat pengguna menekan tombol
+
     const root = document.documentElement;
-    root.classList.add("theme-fade");
-    setTimeout(() => root.classList.remove("theme-fade"), 400);
+
+    if (document.startViewTransition && !reducedMotion()) {
+      document.startViewTransition(() => {
+        flushSync(() => setModeState(next));
+        applyMode(next);
+      });
+      return;
+    }
+
+    if (!reducedMotion()) {
+      root.classList.add("theme-fade");
+      setTimeout(() => root.classList.remove("theme-fade"), 400);
+    }
     setModeState(next);
   }, []);
 

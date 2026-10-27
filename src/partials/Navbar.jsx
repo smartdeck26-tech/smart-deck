@@ -24,7 +24,7 @@ export default function Navbar() {
 
         {/* Mobile: toggle tema + hamburger */}
         <div className="flex items-center gap-2 md:hidden">
-          <ThemeToggle mode={mode} setMode={setMode} />
+          <ThemeToggle mode={mode} setMode={setMode} size="sm" />
 
           <button
             type="button"
