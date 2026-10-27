@@ -1,0 +1,86 @@
+@import "tailwindcss";
+
+@theme {
+  --default-transition-duration: 350ms;
+  --default-transition-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-smooth: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+:root {
+  font-family: "Inter", "Poppins", ui-sans-serif, system-ui, sans-serif;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  color: #1e293b;
+  background: #ffffff;
+  scroll-behavior: smooth;
+}
+/* scroll is driven by JS (scrollToId): no CSS smooth / scroll-padding, else double offset + gap */
+html { -webkit-text-size-adjust: 100%; overflow-x: clip; }
+body { margin: 0; min-width: 320px; background: #ffffff; overflow-x: clip; }
+button, input, textarea, select { font: inherit; }
+button, a { -webkit-tap-highlight-color: transparent; touch-action: manipulation; }
+::selection { background: #009DFC; color: #ffffff; }
+
+
+
+/* Animasi awal */
+.scroll-reveal {
+  opacity: 0;
+  transition:
+    opacity 700ms ease,
+    transform 700ms cubic-bezier(0.22, 1, 0.36, 1);
+  transition-delay: var(--reveal-delay, 0ms);
+  will-change: opacity, transform;
+}
+
+/* Masuk dari kiri */
+.scroll-reveal.from-left {
+  transform: translateX(-70px);
+}
+
+/* Masuk dari kanan */
+.scroll-reveal.from-right {
+  transform: translateX(70px);
+}
+
+/* Kondisi setelah terlihat */
+.scroll-reveal.is-visible {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* Hormati pengaturan pengurangan animasi pengguna */
+@media (prefers-reduced-motion: reduce) {
+  .scroll-reveal,
+  .scroll-reveal.from-left,
+  .scroll-reveal.from-right {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+/* reveal on scroll (animation, so hover translate utilities keep working) */
+[data-reveal] { opacity: 0; }
+[data-reveal].is-in {
+  animation: reveal-up 0.9s var(--ease-smooth) var(--d, 0ms) both;
+}
+@keyframes reveal-up {
+  from { opacity: 0; transform: translate3d(0, 28px, 0) scale(0.985); }
+  to { opacity: 1; transform: none; }
+}
+
+.animate-float { animation: float-y 7s ease-in-out infinite; }
+@keyframes float-y {
+  0%, 100% { transform: translate3d(0, 0, 0); }
+  50% { transform: translate3d(0, -10px, 0); }
+}
+
+/* press feedback */
+a.rounded-full:active, form button:active, header button:active { scale: 0.97; }
+
+@media (prefers-reduced-motion: reduce) {
+  [data-reveal] { opacity: 1; animation: none !important; }
+  .animate-float { animation: none; }
+  *, *::before, *::after { transition-duration: 0.01ms !important; }
+}
+}
