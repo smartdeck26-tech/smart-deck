@@ -31,26 +31,44 @@ const karya = [
 const Kartu = ({ item }) => {
   const [lihat, setLihat] = useState("sesudah");
   const adaSebelum = Boolean(item.sebelum);
-  const gambar = lihat === "sebelum" && adaSebelum ? item.sebelum : item.sesudah;
+  const tampil = lihat === "sebelum" && adaSebelum ? "sebelum" : "sesudah";
+
+  // Dua gambar ditumpuk. Yang aktif opacity 100, yang lain 0, lalu cross-fade.
+  const lapisan = [
+    { k: "sesudah", src: item.sesudah },
+    ...(adaSebelum ? [{ k: "sebelum", src: item.sebelum }] : []),
+  ];
 
   return (
     <article className="overflow-hidden rounded-3xl border border-blue-100 bg-white transition duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-blue-100/60">
-      <div className="relative aspect-video bg-blue-50">
-        <img
-          src={gambar}
-          alt={`${item.judul} (${lihat})`}
-          loading="lazy"
-          className="h-full w-full object-cover"
-        />
+      <div className="relative aspect-video overflow-hidden bg-blue-50">
+        {lapisan.map(({ k, src }) => {
+          const aktif = tampil === k;
+          return (
+            <img
+              key={k}
+              src={src}
+              alt={`${item.judul} (${k})`}
+              aria-hidden={!aktif}
+              loading="lazy"
+              decoding="async"
+              className={`absolute inset-0 h-full w-full object-cover transition-all duration-500 ease-in-out motion-reduce:transition-none ${
+                aktif
+                  ? "scale-100 opacity-100"
+                  : "pointer-events-none scale-105 opacity-0"
+              }`}
+            />
+          );
+        })}
         {adaSebelum && (
-          <div className="absolute bottom-3 left-3 flex rounded-full bg-white/90 p-1 text-xs font-extrabold shadow">
+          <div className="absolute bottom-3 left-3 z-10 flex rounded-full bg-white/90 p-1 text-xs font-extrabold shadow">
             {["sebelum", "sesudah"].map((k) => (
               <button
                 key={k}
                 type="button"
                 onClick={() => setLihat(k)}
                 aria-pressed={lihat === k}
-                className={`rounded-full px-3 py-1 capitalize ${
+                className={`rounded-full px-3 py-1 capitalize transition-colors duration-300 motion-reduce:transition-none ${
                   lihat === k ? "bg-[#024C99] text-white" : "text-slate-600"
                 }`}
               >
