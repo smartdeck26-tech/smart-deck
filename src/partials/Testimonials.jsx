@@ -1,33 +1,7 @@
 import { useEffect, useState } from "react";
 import { SCRIPT_URL } from "../config";
 import { getVisitorId } from "../lib/track";
-
-function loadPublicData(onSuccess) {
-  const callbackName =
-    "smartDeckCallback_" + Math.random().toString(36).slice(2);
-
-  const script = document.createElement("script");
-  const timeout = window.setTimeout(() => {
-    cleanup();
-  }, 12000);
-
-  function cleanup() {
-    window.clearTimeout(timeout);
-    delete window[callbackName];
-    script.remove();
-  }
-
-  window[callbackName] = (data) => {
-    onSuccess(data);
-    cleanup();
-  };
-
-  script.src =
-    `${SCRIPT_URL}?callback=${callbackName}&t=${Date.now()}`;
-
-  script.onerror = cleanup;
-  document.body.appendChild(script);
-}
+import { fetchPublicData } from "../lib/publicData";
 
 export default function Testimoni() {
   const [visitorCount, setVisitorCount] = useState(null);
@@ -60,8 +34,8 @@ export default function Testimoni() {
         }),
       }).catch(() => {});
 
-      loadPublicData((data) => {
-        if (!active) return;
+      fetchPublicData().then((data) => {
+        if (!active || !data) return;
         setVisitorCount(data.visitorCount);
         setTestimonials(data.testimonials || []);
       });
