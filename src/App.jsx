@@ -6,6 +6,7 @@ import AlurPembelajaran from "./partials/AlurPembelajaran";
 import Tentang from "./components/Tentang";
 import Layanan from "./components/Layanan";
 import Paket from "./components/Paket";
+import Portofolio from "./components/Portofolio";
 import CTA from "./partials/CTA";
 import FAQ from "./partials/FAQ";
 import Testimoni from "./partials/Testimonials";
@@ -47,14 +48,18 @@ const App = () => {
         </ScrollReveal>
 
         <ScrollReveal direction="right">
-          <CTA />
+          <Portofolio />
         </ScrollReveal>
 
         <ScrollReveal direction="left">
-          <FAQ />
+          <CTA />
         </ScrollReveal>
 
         <ScrollReveal direction="right">
+          <FAQ />
+        </ScrollReveal>
+
+        <ScrollReveal direction="left">
           <Testimoni />
         </ScrollReveal>
 
