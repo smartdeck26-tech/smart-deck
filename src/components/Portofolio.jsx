@@ -22,8 +22,8 @@ const karya = [
     judul: "Aku Berperilaku Pancasila",
     jenis: "PPKn",
     jenjang: "SD",
-    sebelum: "/portofolio/sebelum.jpg",
-    sesudah: "/portofolio/sesudah.png",
+    sebelum: "/portofolio/sebelum.png",
+    sesudah: "/portofolio/sesudah.jpg",
     link: "https://canva.link/z181uaqywb2f1rm"
   }
 ];
