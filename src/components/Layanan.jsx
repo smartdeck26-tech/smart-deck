@@ -1,5 +1,8 @@
-import { nomorwa } from "../config";
+import { waLink } from "../config";
 import { trackClick } from "../lib/track";
+
+const rupiah = (n) => `Rp${n.toLocaleString("id-ID")}`;
+
 const services = [
   {
     number: "01",
@@ -8,6 +11,9 @@ const services = [
     desc: "Pembuatan media pembelajaran visual yang menarik, terstruktur, dan mudah dipahami siswa.",
     tags: ["Canva", "Materi Interaktif", "Desain Visual"],
     tone: "blue",
+    harga: 15000,
+    satuan: "materi",
+    catatan: "±10 slide",
   },
   {
     number: "02",
@@ -16,6 +22,9 @@ const services = [
     desc: "Pembuatan aktivitas evaluasi berbasis permainan untuk menguji pemahaman siswa dengan cara menyenangkan.",
     tags: ["Wordwall", "Kuis", "Evaluasi"],
     tone: "orange",
+    harga: 30000,
+    satuan: "materi",
+    catatan: "±10 soal",
   },
   {
     number: "03",
@@ -24,6 +33,10 @@ const services = [
     desc: "Kombinasi Canva dan Wordwall untuk menghadirkan pengalaman belajar dari penyampaian materi hingga evaluasi.",
     tags: ["Canva + Wordwall", "Interaktif", "Terintegrasi"],
     tone: "gradient",
+    harga: 40000,
+    satuan: "materi",
+    catatan: "±10 slide + ±10 soal",
+    hemat: 5000,
   },
 ];
 
@@ -105,10 +118,34 @@ const Layanan = () => {
                 ))}
               </div>
 
+              <div className="mt-6 border-t border-blue-50 pt-5">
+                <div className="flex items-center gap-2">
+                  <p className="text-xs font-bold uppercase tracking-wider text-slate-400">
+                    Mulai dari
+                  </p>
+                  {s.hemat && (
+                    <span className="rounded-full bg-orange-100 px-2.5 py-0.5 text-[11px] font-extrabold text-[#F7963A]">
+                      Hemat {rupiah(s.hemat)}
+                    </span>
+                  )}
+                </div>
+                <p className="mt-1 text-2xl font-black text-[#024C99]">
+                  {rupiah(s.harga)}
+                  <span className="ml-1 text-sm font-bold text-slate-400">
+                    / {s.satuan}
+                  </span>
+                </p>
+                <p className="mt-1 text-xs text-slate-400">
+                  {s.catatan} · harga menyesuaikan jumlah materi
+                </p>
+              </div>
+
               <a
                 onClick={() => trackClick("layanan")}
-                href={`https://wa.me/${nomorwa}?text=Halo%20SmartDeck%2C%20saya%20ingin%20konsultasi%20tentang%20canva%20dan%20wordwall%20yang%20terintegrasi.`}
-                className="mt-7 inline-flex items-center gap-2 font-extrabold text-[#024C99] transition-all group-hover:gap-3"
+                href={waLink(
+                  `Halo SmartDeck, saya ingin konsultasi tentang ${s.title}.`
+                )}
+                className="mt-5 inline-flex items-center gap-2 font-extrabold text-[#024C99] transition-all group-hover:gap-3"
               >
                 Diskusikan kebutuhan
                 <span aria-hidden="true" className="text-[#F7963A]">→</span>

@@ -19,7 +19,7 @@ export const faqs = [
   },
   {
     q: "Berapa harga jasanya?",
-    a: "Harga menyesuaikan kebutuhan dan jumlah materi. Hubungi admin lewat WhatsApp untuk mendapatkan penawaran yang sesuai.",
+    a: "Canva mulai dari Rp15.000, Wordwall mulai dari Rp30.000, dan Paket Terintegrasi mulai dari Rp40.000 (per materi). Harga final menyesuaikan jumlah slide atau soal, kerumitan desain, jenis aktivitas, dan tenggat. Hubungi admin lewat WhatsApp untuk penawaran yang sesuai.",
   },
   {
     q: "Berapa lama pengerjaannya?",
