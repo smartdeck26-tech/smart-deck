@@ -1,10 +1,13 @@
 import { useEffect, useState } from "react";
 import { fetchPublicData, ratingSummary } from "../lib/publicData";
 import useCountUp from "../lib/useCountUp";
+import Mascot from "../partials/Mascot";
 
 const CanvaPreview = () => {
   return (
     <div className="relative mx-auto max-w-lg">
+      <Mascot />
+
       {/* Dekorasi */}
       <div className="absolute -right-5 -top-5 h-28 w-28 rounded-full bg-orange-100 blur-2xl" />
       <div className="absolute -bottom-5 -left-5 h-32 w-32 rounded-full bg-blue-100 blur-2xl" />
@@ -198,7 +201,7 @@ const Home = () => {
       </div>
 
       {/* Ilustrasi media pembelajaran */}
-      <div className="relative z-10 px-2 pb-5 pt-3 sm:px-6">
+      <div className="relative z-10 px-2 pb-5 pt-16 sm:px-6 md:pt-12">
         <CanvaPreview />
       </div>
     </section>

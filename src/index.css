@@ -86,3 +86,102 @@ a.rounded-full:active, form button:active, header button:active { scale: 0.97; }
   .animate-float { animation: none; }
   *, *::before, *::after { transition-duration: 0.01ms !important; }
 }
+
+/* ---- Maskot Deki (SVG, animasi CSS murni) ---- */
+.sd-mascot { animation: sd-pop 0.7s var(--ease-smooth) 0.5s both; }
+@keyframes sd-pop {
+  from { opacity: 0; transform: translateY(18px) scale(0.85); }
+  to { opacity: 1; transform: none; }
+}
+
+.sd-float { animation: sd-float 3.4s ease-in-out infinite; }
+@keyframes sd-float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-5px); }
+}
+
+.sd-shadow {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: sd-shadow 3.4s ease-in-out infinite;
+}
+@keyframes sd-shadow {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(0.86); }
+}
+
+/* lompat kecil saat disorot / difokus */
+.sd-hop { transform-origin: 80px 154px; }
+.sd-mascot:hover .sd-hop,
+.sd-mascot:focus-visible .sd-hop { animation: sd-hop 0.7s ease-out; }
+@keyframes sd-hop {
+  0% { transform: translateY(0) scale(1); }
+  25% { transform: translateY(-14px) scale(0.97, 1.04); }
+  55% { transform: translateY(0) scale(1.04, 0.95); }
+  75% { transform: translateY(-4px) scale(1); }
+  100% { transform: none; }
+}
+
+.sd-eyes {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: sd-blink 4.6s infinite;
+}
+@keyframes sd-blink {
+  0%, 94%, 100% { transform: scaleY(1); }
+  97% { transform: scaleY(0.1); }
+}
+
+.sd-wave { transform-origin: 126px 100px; animation: sd-wave 3.6s ease-in-out infinite; }
+@keyframes sd-wave {
+  0%, 55%, 100% { transform: rotate(0deg); }
+  8% { transform: rotate(-14deg); }
+  16% { transform: rotate(8deg); }
+  24% { transform: rotate(-14deg); }
+  32% { transform: rotate(8deg); }
+  40% { transform: rotate(-10deg); }
+  48% { transform: rotate(4deg); }
+}
+
+.sd-pencil {
+  transform: rotate(-10deg);
+  transform-origin: 20px 126px;
+  animation: sd-write 2.4s ease-in-out infinite;
+}
+@keyframes sd-write {
+  0%, 100% { transform: rotate(-14deg); }
+  50% { transform: rotate(-4deg); }
+}
+
+.sd-tassel { transform-origin: 120px 40px; animation: sd-sway 2.8s ease-in-out infinite; }
+@keyframes sd-sway {
+  0%, 100% { transform: rotate(-8deg); }
+  50% { transform: rotate(8deg); }
+}
+
+.sd-spark {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: sd-twinkle 2.6s ease-in-out infinite;
+}
+.sd-spark.sd-d1 { animation-delay: 0.8s; }
+.sd-spark.sd-d2 { animation-delay: 1.6s; }
+@keyframes sd-twinkle {
+  0%, 100% { transform: scale(0.4); opacity: 0.3; }
+  50% { transform: scale(1); opacity: 1; }
+}
+
+.sd-bubble-text { animation: sd-bubble-in 0.45s var(--ease-smooth) both; }
+@keyframes sd-bubble-in {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sd-mascot, .sd-float, .sd-shadow, .sd-eyes, .sd-wave, .sd-pencil,
+  .sd-tassel, .sd-spark, .sd-bubble-text,
+  .sd-mascot:hover .sd-hop, .sd-mascot:focus-visible .sd-hop {
+    animation: none !important;
+  }
+  .sd-spark { opacity: 1; }
+}
