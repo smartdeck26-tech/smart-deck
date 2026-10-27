@@ -108,3 +108,54 @@ a.rounded-full:active, form button:active, header button:active { scale: 0.97; }
   .wa-float, .wa-ring { animation: none !important; }
   .wa-ring { display: none; }
 }
+
+/* ---- Tombol WhatsApp mengambang: kedip menarik perhatian ---- */
+.wa-float { animation: wa-pulse 1.8s ease-in-out infinite; }
+@keyframes wa-pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+}
+
+/* cahaya hijau menyebar keluar */
+.wa-btn { animation: wa-glow 1.8s ease-out infinite; }
+@keyframes wa-glow {
+  0% {
+    box-shadow: 0 10px 15px -3px rgba(20, 83, 45, 0.25), 0 0 0 0 rgba(37, 211, 102, 0.85);
+  }
+  70%, 100% {
+    box-shadow: 0 10px 15px -3px rgba(20, 83, 45, 0.25), 0 0 0 22px rgba(37, 211, 102, 0);
+  }
+}
+
+/* ikon bergoyang sebentar, lalu diam */
+.wa-icon { transform-origin: 50% 60%; animation: wa-wiggle 4s ease-in-out infinite; }
+@keyframes wa-wiggle {
+  0%, 30%, 100% { transform: rotate(0deg); }
+  4% { transform: rotate(-16deg); }
+  8% { transform: rotate(14deg); }
+  12% { transform: rotate(-12deg); }
+  16% { transform: rotate(10deg); }
+  20% { transform: rotate(-6deg); }
+  24% { transform: rotate(0deg); }
+}
+
+/* titik merah berkedip */
+.wa-dot { animation: wa-blink 1s steps(1, end) infinite; }
+@keyframes wa-blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.15; }
+}
+
+/* berhenti saat disorot, supaya mudah diklik */
+.wa-float:hover,
+.wa-float:hover * { animation-play-state: paused; }
+
+/* kurangi animasi: tanpa gerak, tetap berkedip lewat transparansi */
+@media (prefers-reduced-motion: reduce) {
+  .wa-float, .wa-icon { animation: none !important; }
+  .wa-btn { animation: wa-fade 2s ease-in-out infinite !important; box-shadow: 0 10px 15px -3px rgba(20, 83, 45, 0.25); }
+  @keyframes wa-fade {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.6; }
+  }
+}
