@@ -1,6 +1,7 @@
 import { useState } from "react";
 import Brand from "./Brand";
-import { nomorwa } from "../App.jsx";
+import { nomorwa } from "../config";
+import { trackClick } from "../lib/track";
 
 const nav = [
   ["Beranda", "#home"],
@@ -50,6 +51,7 @@ export default function Navbar() {
           ))}
 
           <a
+            onClick={() => trackClick("navbar")}
             href={`https://wa.me/${nomorwa}?text=${encodeURIComponent(
               "Halo SmartDeck, saya ingin konsultasi gratis."
             )}`}
@@ -98,7 +100,10 @@ export default function Navbar() {
                 target="_blank"
                 rel="noopener noreferrer"
                 tabIndex={menuOpen ? 0 : -1}
-                onClick={closeMenu}
+                onClick={() => {
+                  trackClick("navbar-mobile");
+                  closeMenu();
+                }}
                 style={{
                   transitionDelay: menuOpen ? `${nav.length * 40}ms` : "0ms",
                 }}

@@ -1,4 +1,5 @@
-import {nomorwa} from "../App.jsx";
+import { nomorwa } from "../config";
+import { trackClick } from "../lib/track";
 const services = [
   {
     number: "01",
@@ -105,7 +106,8 @@ const Layanan = () => {
               </div>
 
               <a
-                href= {`https://wa.me/${nomorwa}?text=Halo%20SmartDeck%2C%20saya%20ingin%20konsultasi%20tentang%20canva%20dan%20wordwall%20yang%20terintegrasi.`}
+                onClick={() => trackClick("layanan")}
+                href={`https://wa.me/${nomorwa}?text=Halo%20SmartDeck%2C%20saya%20ingin%20konsultasi%20tentang%20canva%20dan%20wordwall%20yang%20terintegrasi.`}
                 className="mt-7 inline-flex items-center gap-2 font-extrabold text-[#024C99] transition-all group-hover:gap-3"
               >
                 Diskusikan kebutuhan

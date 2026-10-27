@@ -59,6 +59,8 @@ button, a { -webkit-tap-highlight-color: transparent; touch-action: manipulation
     transform: none;
     transition: none;
   }
+}
+
 /* reveal on scroll (animation, so hover translate utilities keep working) */
 [data-reveal] { opacity: 0; }
 [data-reveal].is-in {
@@ -82,5 +84,4 @@ a.rounded-full:active, form button:active, header button:active { scale: 0.97; }
   [data-reveal] { opacity: 1; animation: none !important; }
   .animate-float { animation: none; }
   *, *::before, *::after { transition-duration: 0.01ms !important; }
-}
 }

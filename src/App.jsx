@@ -13,9 +13,8 @@ import Testimoni from "./partials/Testimonials";
 import Footer from "./partials/Footer";
 
 import ScrollReveal from "./partials/ScrollReveal";
-import Brand from "./partials/Brand"
+import WhatsAppFloat from "./partials/WhatsAppFloat";
 import { Analytics } from "@vercel/analytics/react";
-export const nomorwa =  "6285166817961";
 const App = () => {
   return (
 
@@ -65,6 +64,7 @@ const App = () => {
       </main>
 <Analytics />
       <Footer />
+      <WhatsAppFloat />
     </div>
   );
 }

@@ -1,4 +1,5 @@
-import { nomorwa } from "../App.jsx";
+import { nomorwa } from "../config";
+import { trackClick } from "../lib/track";
 
 export default function CTA() {
   return (
@@ -20,6 +21,7 @@ export default function CTA() {
         </div>
 
         <a
+          onClick={() => trackClick("cta")}
           href={`https://wa.me/${nomorwa}?text=Halo%20SmartDeck%2C%20saya%20ingin%20konsultasi%20gratis.`}
           className="shrink-0 rounded-full bg-[#F7963A] px-7 py-4 font-extrabold text-white shadow-xl shadow-blue-950/20 transition hover:-translate-y-1 hover:bg-orange-500"
         >
