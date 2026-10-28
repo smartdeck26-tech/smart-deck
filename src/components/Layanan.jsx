@@ -3,13 +3,13 @@ import { trackClick } from "../lib/track";
 
 const rupiah = (n) => `Rp${n.toLocaleString("id-ID")}`;
 
+/* Ukuran asli gambar layanan: 1672 x 941 (rasio 16:9). */
 const IMG_W = 1672;
 const IMG_H = 941;
 
 const services = [
   {
     number: "01",
-    icon: "🎨",
     title: "Media Pembelajaran Canva",
     desc: "Pembuatan media pembelajaran visual yang menarik, terstruktur, dan mudah dipahami siswa.",
     tags: ["Canva", "Materi Interaktif", "Desain Visual"],
@@ -23,7 +23,6 @@ const services = [
   },
   {
     number: "02",
-    icon: "🎮",
     title: "Evaluasi Interaktif Wordwall",
     desc: "Pembuatan aktivitas evaluasi berbasis permainan untuk menguji pemahaman siswa dengan cara menyenangkan.",
     tags: ["Wordwall", "Kuis", "Evaluasi"],
@@ -37,7 +36,6 @@ const services = [
   },
   {
     number: "03",
-    icon: "🚀",
     title: "Paket Media Terintegrasi",
     desc: "Kombinasi Canva dan Wordwall untuk menghadirkan pengalaman belajar dari penyampaian materi hingga evaluasi.",
     tags: ["Canva + Wordwall", "Interaktif", "Terintegrasi"],
@@ -90,9 +88,11 @@ const Layanan = () => {
               key={s.number}
               className="group relative overflow-hidden rounded-3xl border border-blue-100 bg-white shadow-sm transition duration-300 hover:-translate-y-2 hover:shadow-xl hover:shadow-blue-100/70"
             >
-              {/* Gambar layanan: rasio kotak = rasio file (16:9), tidak terpotong */}
+              {/* Gambar layanan: rasio kotak = rasio file (16:9).
+                  Zoom tipis saat pointer di atas gambar (desktop)
+                  atau saat gambar ditekan (mobile). */}
               <div
-                className={`relative aspect-video overflow-hidden ${toneBg(s.tone)}`}
+                className={`group/img relative aspect-video overflow-hidden ${toneBg(s.tone)}`}
               >
                 <img
                   src={s.gambar}
@@ -101,24 +101,16 @@ const Layanan = () => {
                   height={IMG_H}
                   loading="lazy"
                   decoding="async"
-                  className="h-full w-full object-cover"
+                  className="h-full w-full object-cover transition-transform duration-500 ease-out group-hover/img:scale-[1.04] group-active/img:scale-[1.04] motion-reduce:transition-none motion-reduce:group-hover/img:scale-100 motion-reduce:group-active/img:scale-100"
                 />
               </div>
 
               <div className="p-7 pt-6">
-                <div className="flex items-center justify-between">
-                  <span
-                    className={`grid h-11 w-11 place-items-center rounded-2xl text-xl ${toneBg(s.tone)}`}
-                  >
-                    <span aria-hidden="true">{s.icon}</span>
-                  </span>
+                <span className="block text-right text-sm font-black text-slate-300">
+                  {s.number}
+                </span>
 
-                  <span className="text-sm font-black text-slate-300">
-                    {s.number}
-                  </span>
-                </div>
-
-                <h3 className="mt-5 text-xl font-black text-slate-900">
+                <h3 className="mt-2 text-xl font-black text-slate-900">
                   {s.title}
                 </h3>
 
