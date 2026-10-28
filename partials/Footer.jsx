@@ -18,19 +18,17 @@ const socialMedia = [
   {
     name: "Facebook",
     icon: FaFacebook,
-    link: "#",
-    // https://www.facebook.com/USERNAME
+    link: "https://www.facebook.com/share/1KFsn5izbX/",
   },
   {
     name: "YouTube",
     icon: FaYoutube,
-    link: "#",
-    // https://www.youtube.com/@USERNAME
+    link: "https://www.youtube.com/@SmartDeck10",
   },
   {
     name: "TikTok",
     icon: FaTiktok,
-    link: "https://www.tiktok.com/@smartdeck10_",
+    link: "https://wwxw.tiktok.com/@smartdeck10_",
   },
 ];
 
