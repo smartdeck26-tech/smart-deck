@@ -3,6 +3,9 @@ import { trackClick } from "../lib/track";
 
 const rupiah = (n) => `Rp${n.toLocaleString("id-ID")}`;
 
+const IMG_W = 1672;
+const IMG_H = 941;
+
 const services = [
   {
     number: "01",
@@ -14,6 +17,9 @@ const services = [
     harga: 15000,
     satuan: "materi",
     catatan: "±10 slide",
+    gambar: "/layanan/canva.png",
+    gambarAlt:
+      "Banner layanan media pembelajaran Canva dengan dua siswa dan tampilan editor Canva di laptop",
   },
   {
     number: "02",
@@ -25,6 +31,9 @@ const services = [
     harga: 30000,
     satuan: "materi",
     catatan: "±10 soal",
+    gambar: "/layanan/wordwall.png",
+    gambarAlt:
+      "Banner layanan evaluasi interaktif Wordwall dengan dua siswa dan permainan kuis di laptop",
   },
   {
     number: "03",
@@ -37,8 +46,18 @@ const services = [
     satuan: "materi",
     catatan: "±10 slide + ±10 soal",
     hemat: 5000,
+    gambar: "/layanan/terintegrasi.png",
+    gambarAlt:
+      "Banner paket media terintegrasi Canva dan Wordwall dengan dua siswa, laptop, dan tablet",
   },
 ];
+
+const toneBg = (tone) =>
+  tone === "orange"
+    ? "bg-orange-50"
+    : tone === "gradient"
+      ? "bg-gradient-to-br from-blue-50 to-orange-50"
+      : "bg-blue-50";
 
 const SectionHeading = ({ eyebrow, title, desc }) => (
   <div className="mx-auto mb-12 max-w-2xl text-center">
@@ -69,90 +88,98 @@ const Layanan = () => {
           {services.map((s) => (
             <article
               key={s.number}
-              className="group relative overflow-hidden rounded-3xl border border-blue-100 bg-white p-7 shadow-sm transition duration-300 hover:-translate-y-2 hover:shadow-xl hover:shadow-blue-100/70"
+              className="group relative overflow-hidden rounded-3xl border border-blue-100 bg-white shadow-sm transition duration-300 hover:-translate-y-2 hover:shadow-xl hover:shadow-blue-100/70"
             >
+              {/* Gambar layanan: rasio kotak = rasio file (16:9), tidak terpotong */}
               <div
-                className={`absolute right-0 top-0 h-24 w-24 rounded-bl-[3rem] ${
-                  s.tone === "orange"
-                    ? "bg-orange-50"
-                    : s.tone === "gradient"
-                      ? "bg-gradient-to-br from-blue-50 to-orange-50"
-                      : "bg-blue-50"
-                }`}
-              />
-
-              <div className="relative flex items-start justify-between">
-                <span
-                  className={`grid h-14 w-14 place-items-center rounded-2xl text-2xl ${
-                    s.tone === "orange"
-                      ? "bg-orange-50"
-                      : s.tone === "gradient"
-                        ? "bg-gradient-to-br from-blue-50 to-orange-50"
-                        : "bg-blue-50"
-                  }`}
-                >
-                  <span aria-hidden="true">{s.icon}</span>
-                </span>
-
-                <span className="text-sm font-black text-slate-300">
-                  {s.number}
-                </span>
-              </div>
-
-              <h3 className="mt-6 text-xl font-black text-slate-900">
-                {s.title}
-              </h3>
-
-              <p className="mt-3 min-h-[96px] leading-7 text-slate-500">
-                {s.desc}
-              </p>
-
-              <div className="mt-5 flex flex-wrap gap-2">
-                {s.tags.map((t) => (
-                  <span
-                    key={t}
-                    className="rounded-full bg-slate-50 px-3 py-1.5 text-xs font-bold text-slate-600"
-                  >
-                    {t}
-                  </span>
-                ))}
-              </div>
-
-              <div className="mt-6 border-t border-blue-50 pt-5">
-                <div className="flex items-center gap-2">
-                  <p className="text-xs font-bold uppercase tracking-wider text-slate-400">
-                    Mulai dari
-                  </p>
-                  {s.hemat && (
-                    <span className="rounded-full bg-orange-100 px-2.5 py-0.5 text-[11px] font-extrabold text-[#F7963A]">
-                      Hemat {rupiah(s.hemat)}
-                    </span>
-                  )}
-                </div>
-                <p className="mt-1 text-2xl font-black text-[#024C99]">
-                  {rupiah(s.harga)}
-                  <span className="ml-1 text-sm font-bold text-slate-400">
-                    / {s.satuan}
-                  </span>
-                </p>
-                <p className="mt-1 text-xs text-slate-400">
-                  {s.catatan} · harga menyesuaikan jumlah materi
-                </p>
-              </div>
-
-              <a
-                onClick={() => trackClick("layanan")}
-                href={waLink(
-                  `Halo SmartDeck, saya ingin konsultasi tentang ${s.title}.`
-                )}
-                className="mt-5 inline-flex items-center gap-2 font-extrabold text-[#024C99] transition-all group-hover:gap-3"
+                className={`relative aspect-video overflow-hidden ${toneBg(s.tone)}`}
               >
-                Diskusikan kebutuhan
-                <span aria-hidden="true" className="text-[#F7963A]">→</span>
-              </a>
+                <img
+                  src={s.gambar}
+                  alt={s.gambarAlt}
+                  width={IMG_W}
+                  height={IMG_H}
+                  loading="lazy"
+                  decoding="async"
+                  className="h-full w-full object-cover"
+                />
+              </div>
+
+              <div className="p-7 pt-6">
+                <div className="flex items-center justify-between">
+                  <span
+                    className={`grid h-11 w-11 place-items-center rounded-2xl text-xl ${toneBg(s.tone)}`}
+                  >
+                    <span aria-hidden="true">{s.icon}</span>
+                  </span>
+
+                  <span className="text-sm font-black text-slate-300">
+                    {s.number}
+                  </span>
+                </div>
+
+                <h3 className="mt-5 text-xl font-black text-slate-900">
+                  {s.title}
+                </h3>
+
+                <p className="mt-3 min-h-[96px] leading-7 text-slate-500">
+                  {s.desc}
+                </p>
+
+                <div className="mt-5 flex flex-wrap gap-2">
+                  {s.tags.map((t) => (
+                    <span
+                      key={t}
+                      className="rounded-full bg-slate-50 px-3 py-1.5 text-xs font-bold text-slate-600"
+                    >
+                      {t}
+                    </span>
+                  ))}
+                </div>
+
+                <div className="mt-6 border-t border-blue-50 pt-5">
+                  <div className="flex items-center gap-2">
+                    <p className="text-xs font-bold uppercase tracking-wider text-slate-400">
+                      Mulai dari
+                    </p>
+                    {s.hemat && (
+                      <span className="rounded-full bg-orange-100 px-2.5 py-0.5 text-[11px] font-extrabold text-[#F7963A]">
+                        Hemat {rupiah(s.hemat)}
+                      </span>
+                    )}
+                  </div>
+                  <p className="mt-1 text-2xl font-black text-[#024C99]">
+                    {rupiah(s.harga)}
+                    <span className="ml-1 text-sm font-bold text-slate-400">
+                      / {s.satuan}
+                    </span>
+                  </p>
+                  <p className="mt-1 text-xs text-slate-400">
+                    {s.catatan} · harga menyesuaikan jumlah materi
+                  </p>
+                </div>
+
+                <a
+                  onClick={() => trackClick("layanan")}
+                  href={waLink(
+                    `Halo SmartDeck, saya ingin konsultasi tentang ${s.title}.`
+                  )}
+                  className="mt-5 inline-flex items-center gap-2 font-extrabold text-[#024C99] transition-all group-hover:gap-3"
+                >
+                  Diskusikan kebutuhan
+                  <span aria-hidden="true" className="text-[#F7963A]">
+                    →
+                  </span>
+                </a>
+              </div>
             </article>
           ))}
         </div>
+
+        <p className="mt-8 text-center text-xs text-slate-400">
+          Canva dan Wordwall adalah merek dagang milik masing-masing pemiliknya.
+          SmartDeck adalah layanan independen dan tidak berafiliasi resmi.
+        </p>
       </div>
     </section>
   );
