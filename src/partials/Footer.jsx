@@ -18,8 +18,7 @@ const socialMedia = [
   {
     name: "Facebook",
     icon: FaFacebook,
-    link: "#",
-    // https://www.facebook.com/USERNAME
+    link: "https://www.facebook.com/share/1KFsn5izbX/",
   },
   {
     name: "YouTube",
