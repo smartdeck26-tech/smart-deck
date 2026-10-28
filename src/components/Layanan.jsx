@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import { waLink } from "../config";
 import { trackClick } from "../lib/track";
 
@@ -70,6 +71,22 @@ const SectionHeading = ({ eyebrow, title, desc }) => (
 );
 
 const Layanan = () => {
+  /* Mobile: gambar yang disentuh tetap zoom sampai pengguna menyentuh
+     area lain. Desktop memakai hover biasa. */
+  const [aktif, setAktif] = useState(null);
+
+  useEffect(() => {
+    const tutup = (e) => {
+      if (!e.target.closest("[data-zoom]")) setAktif(null);
+    };
+    document.addEventListener("click", tutup);
+    return () => document.removeEventListener("click", tutup);
+  }, []);
+
+  const pilihGambar = (nomor) => {
+    if (window.matchMedia("(hover: none)").matches) setAktif(nomor);
+  };
+
   return (
     <section
       id="layanan"
@@ -89,9 +106,12 @@ const Layanan = () => {
               className="group relative overflow-hidden rounded-3xl border border-blue-100 bg-white shadow-sm transition duration-300 hover:-translate-y-2 hover:shadow-xl hover:shadow-blue-100/70"
             >
               {/* Gambar layanan: rasio kotak = rasio file (16:9).
-                  Zoom tipis saat pointer di atas gambar (desktop)
-                  atau saat gambar ditekan (mobile). */}
+                  Desktop: zoom tipis saat hover.
+                  Mobile: zoom tetap setelah disentuh, hilang saat area lain disentuh. */}
               <div
+                data-zoom
+                data-aktif={aktif === s.number ? "true" : "false"}
+                onClick={() => pilihGambar(s.number)}
                 className={`group/img relative aspect-video overflow-hidden ${toneBg(s.tone)}`}
               >
                 <img
@@ -101,16 +121,12 @@ const Layanan = () => {
                   height={IMG_H}
                   loading="lazy"
                   decoding="async"
-                  className="h-full w-full object-cover transition-transform duration-500 ease-out group-hover/img:scale-[1.04] group-active/img:scale-[1.04] motion-reduce:transition-none motion-reduce:group-hover/img:scale-100 motion-reduce:group-active/img:scale-100"
+                  className="h-full w-full object-cover transition-transform duration-500 ease-out group-hover/img:scale-[1.04] group-data-[aktif=true]/img:scale-[1.04] motion-reduce:transition-none motion-reduce:group-hover/img:scale-100 motion-reduce:group-data-[aktif=true]/img:scale-100"
                 />
               </div>
 
               <div className="p-7 pt-6">
-                <span className="block text-right text-sm font-black text-slate-300">
-                  {s.number}
-                </span>
-
-                <h3 className="mt-2 text-xl font-black text-slate-900">
+                <h3 className="text-xl font-black text-slate-900">
                   {s.title}
                 </h3>
 
