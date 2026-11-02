@@ -21,22 +21,11 @@ const socialMedia = [
     link: "https://www.facebook.com/share/1KFsn5izbX/",
   },
   {
-<<<<<<< HEAD
-    name: "YouTube",
-    icon: FaYoutube,
-    link: "https://www.youtube.com/@SmartDeck10",
-  },
-  {
-=======
->>>>>>> fitur-baru
     name: "TikTok",
     icon: FaTiktok,
     link: "https://www.tiktok.com/@smartdeck10_",
   },
-<<<<<<< HEAD
-=======
   
->>>>>>> fitur-baru
 ];
 
 const nav = [
