@@ -21,14 +21,14 @@ const socialMedia = [
     link: "https://www.facebook.com/share/1KFsn5izbX/",
   },
   {
-    name: "YouTube",
-    icon: FaYoutube,
-    link: "https://www.youtube.com/@SmartDeck10",
-  },
-  {
     name: "TikTok",
     icon: FaTiktok,
     link: "https://www.tiktok.com/@smartdeck10_",
+  },
+   {
+    name: "YouTube",
+    icon: FaYoutube,
+    link: "https://www.youtube.com/@SmartDeck10",
   },
 ];
 
