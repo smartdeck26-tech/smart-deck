@@ -25,11 +25,7 @@ const socialMedia = [
     icon: FaTiktok,
     link: "https://www.tiktok.com/@smartdeck10_",
   },
-   {
-    name: "YouTube",
-    icon: FaYoutube,
-    link: "https://www.youtube.com/@SmartDeck10",
-  },
+  
 ];
 
 const nav = [

@@ -107,7 +107,7 @@ export default function Navbar() {
                 style={{
                   transitionDelay: menuOpen ? `${nav.length * 40}ms` : "0ms",
                 }}
-                className={`mt-2 block rounded-full bg-gradient-to-r from-[#024C99] to-[#009DFC] px-5 py-3 text-center text-sm font-extrabold text-white shadow-lg shadow-blue-200 transition-all duration-300 ${
+                className={`mt-2 block rounded-full bg-gradient-to-r from-[#f8c04c] to-[#009DFC] px-5 py-3 text-center text-sm font-extrabold text-white shadow-lg shadow-blue-200 transition-all duration-300 ${
                   menuOpen
                     ? "translate-y-0 opacity-100"
                     : "-translate-y-2 opacity-0"
