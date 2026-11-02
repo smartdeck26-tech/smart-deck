@@ -1,0 +1,256 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --default-transition-duration: 350ms;
+  --default-transition-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-smooth: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+:root {
+  font-family: "Inter", "Poppins", ui-sans-serif, system-ui, sans-serif;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  color: #1e293b;
+  background: #ffffff;
+}
+/* scroll is driven by JS (scrollToId): no CSS smooth / scroll-padding, else double offset + gap */
+/* cadangan bila JS belum jalan (buka langsung dengan #hash): berhenti di bawah navbar */
+section[id] { scroll-margin-top: 4.5rem; }
+html { -webkit-text-size-adjust: 100%; overflow-x: clip; }
+body { margin: 0; min-width: 320px; background: #ffffff; overflow-x: clip; }
+button, input, textarea, select { font: inherit; }
+button, a { -webkit-tap-highlight-color: transparent; touch-action: manipulation; }
+::selection { background: #009DFC; color: #ffffff; }
+
+
+
+/* Animasi awal */
+.scroll-reveal {
+  opacity: 0;
+  transition:
+    opacity 700ms ease,
+    transform 700ms cubic-bezier(0.22, 1, 0.36, 1);
+  transition-delay: var(--reveal-delay, 0ms);
+  will-change: opacity, transform;
+}
+
+/* Masuk dari kiri */
+.scroll-reveal.from-left {
+  transform: translateX(-70px);
+}
+
+/* Masuk dari kanan */
+.scroll-reveal.from-right {
+  transform: translateX(70px);
+}
+
+/* Kondisi setelah terlihat */
+.scroll-reveal.is-visible {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* Hormati pengaturan pengurangan animasi pengguna */
+@media (prefers-reduced-motion: reduce) {
+  .scroll-reveal,
+  .scroll-reveal.from-left,
+  .scroll-reveal.from-right {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
+
+/* reveal on scroll (animation, so hover translate utilities keep working) */
+[data-reveal] { opacity: 0; }
+[data-reveal].is-in {
+  animation: reveal-up 0.9s var(--ease-smooth) var(--d, 0ms) both;
+}
+@keyframes reveal-up {
+  from { opacity: 0; transform: translate3d(0, 28px, 0) scale(0.985); }
+  to { opacity: 1; transform: none; }
+}
+
+.animate-float { animation: float-y 7s ease-in-out infinite; }
+@keyframes float-y {
+  0%, 100% { transform: translate3d(0, 0, 0); }
+  50% { transform: translate3d(0, -10px, 0); }
+}
+
+/* press feedback */
+a.rounded-full:active, form button:active, header button:active { scale: 0.97; }
+
+@media (prefers-reduced-motion: reduce) {
+  [data-reveal] { opacity: 1; animation: none !important; }
+  .animate-float { animation: none; }
+  *, *::before, *::after { transition-duration: 0.01ms !important; }
+}
+
+/* ---- Maskot Deki (SVG, animasi CSS murni) ---- */
+.sd-mascot { animation: sd-pop 0.7s var(--ease-smooth) 0.5s both; }
+@keyframes sd-pop {
+  from { opacity: 0; transform: translateY(18px) scale(0.85); }
+  to { opacity: 1; transform: none; }
+}
+
+.sd-float { animation: sd-float 3.4s ease-in-out infinite; }
+@keyframes sd-float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-5px); }
+}
+
+.sd-shadow {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: sd-shadow 3.4s ease-in-out infinite;
+}
+@keyframes sd-shadow {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(0.86); }
+}
+
+/* lompat kecil saat disorot / difokus */
+.sd-hop { transform-origin: 80px 154px; }
+.sd-mascot:hover .sd-hop,
+.sd-mascot:focus-visible .sd-hop { animation: sd-hop 0.7s ease-out; }
+@keyframes sd-hop {
+  0% { transform: translateY(0) scale(1); }
+  25% { transform: translateY(-14px) scale(0.97, 1.04); }
+  55% { transform: translateY(0) scale(1.04, 0.95); }
+  75% { transform: translateY(-4px) scale(1); }
+  100% { transform: none; }
+}
+
+.sd-eyes {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: sd-blink 4.6s infinite;
+}
+@keyframes sd-blink {
+  0%, 94%, 100% { transform: scaleY(1); }
+  97% { transform: scaleY(0.1); }
+}
+
+.sd-wave { transform-origin: 126px 100px; animation: sd-wave 3.6s ease-in-out infinite; }
+@keyframes sd-wave {
+  0%, 55%, 100% { transform: rotate(0deg); }
+  8% { transform: rotate(-14deg); }
+  16% { transform: rotate(8deg); }
+  24% { transform: rotate(-14deg); }
+  32% { transform: rotate(8deg); }
+  40% { transform: rotate(-10deg); }
+  48% { transform: rotate(4deg); }
+}
+
+.sd-pencil {
+  transform: rotate(-10deg);
+  transform-origin: 20px 126px;
+  animation: sd-write 2.4s ease-in-out infinite;
+}
+@keyframes sd-write {
+  0%, 100% { transform: rotate(-14deg); }
+  50% { transform: rotate(-4deg); }
+}
+
+.sd-tassel { transform-origin: 120px 40px; animation: sd-sway 2.8s ease-in-out infinite; }
+@keyframes sd-sway {
+  0%, 100% { transform: rotate(-8deg); }
+  50% { transform: rotate(8deg); }
+}
+
+.sd-spark {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: sd-twinkle 2.6s ease-in-out infinite;
+}
+.sd-spark.sd-d1 { animation-delay: 0.8s; }
+.sd-spark.sd-d2 { animation-delay: 1.6s; }
+@keyframes sd-twinkle {
+  0%, 100% { transform: scale(0.4); opacity: 0.3; }
+  50% { transform: scale(1); opacity: 1; }
+}
+
+.sd-bubble-text { animation: sd-bubble-in 0.45s var(--ease-smooth) both; }
+@keyframes sd-bubble-in {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sd-mascot, .sd-float, .sd-shadow, .sd-eyes, .sd-wave, .sd-pencil,
+  .sd-tassel, .sd-spark, .sd-bubble-text,
+  .sd-mascot:hover .sd-hop, .sd-mascot:focus-visible .sd-hop {
+    animation: none !important;
+  }
+  .sd-spark { opacity: 1; }
+}
+
+/* ================= MODE GELAP =================
+   Kelas "dark" dipasang di <html> oleh src/lib/theme.js.
+   Palet slate/blue/orange ditukar lewat variabel tema Tailwind, jadi semua
+   komponen ikut berubah tanpa mengedit kelasnya satu per satu. */
+html.dark {
+  --color-slate-50: #14233a;
+  --color-slate-100: #1b2b45;
+  --color-slate-200: #2a3d5c;
+  --color-slate-300: #4b5d78;
+  --color-slate-400: #8294ae;
+  --color-slate-500: #a3b3c9;
+  --color-slate-600: #bac7da;
+  --color-slate-700: #cfd9e6;
+  --color-slate-800: #e2e8f0;
+  --color-slate-900: #f1f5f9;
+
+  --color-blue-50: #12243f;
+  --color-blue-100: #1c3659;
+  --color-blue-200: #27507f;
+
+  --color-orange-50: #2b1e11;
+  --color-orange-100: #3d2915;
+
+  color: #dbe5f1;
+  background: #0a1424;
+}
+html.dark body { background: #0a1424; }
+
+/* warna yang ditulis langsung (bukan dari palet) */
+html.dark .bg-white { background-color: #101d33; }
+html.dark .bg-white\/90 { background-color: rgb(10 20 36 / 0.9); }
+html.dark .bg-\[\#F7FBFF\] { background-color: #0d1930; }
+html.dark .text-\[\#024C99\],
+html.dark .hover\:text-\[\#024C99\]:hover { color: #8cc8ff; }
+html.dark .text-blue-50 { color: #eaf4ff; } /* teks di atas gradien biru */
+html.dark .bg-clip-text { --tw-gradient-from: #6cbcff; } /* judul gradien di hero */
+
+/* kolom isian */
+html.dark input,
+html.dark textarea,
+html.dark select { color: #e2e8f0; }
+html.dark input::placeholder,
+html.dark textarea::placeholder { color: #7b8aa0; }
+
+html.theme-fade,
+html.theme-fade *,
+html.theme-fade *::before,
+html.theme-fade *::after {
+  transition-property: background-color, border-color, color, fill, stroke, box-shadow !important;
+  transition-duration: 450ms !important;
+  transition-timing-function: cubic-bezier(0.22, 1, 0.36, 1) !important;
+}
+
+::view-transition-group(site-header),
+::view-transition-group(wa-float) {
+  animation-duration: 450ms;
+  animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+header[style*="site-header"] {
+  transform: translateZ(0);
+}
+
+html.theme-fade header {
+  transition: none !important;
+}
