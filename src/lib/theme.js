@@ -2,9 +2,12 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { flushSync } from "react-dom";
 
 export const THEME_KEY = "smartdeck-theme"; // "light" | "dark" | "system"
+<<<<<<< HEAD
 const LIGHT_COLOR = "#024C99";
 const DARK_COLOR = "#0a1424";
 
+=======
+>>>>>>> fitur-baru
 const darkQuery = () => window.matchMedia("(prefers-color-scheme: dark)");
 const reducedMotion = () =>
   window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
@@ -23,9 +26,16 @@ export function applyMode(mode) {
   const root = document.documentElement;
   root.classList.toggle("dark", dark);
   root.style.colorScheme = dark ? "dark" : "light";
+<<<<<<< HEAD
   document
     .querySelector('meta[name="theme-color"]')
     ?.setAttribute("content", dark ? DARK_COLOR : LIGHT_COLOR);
+=======
+  const themeColor = getComputedStyle(root).getPropertyValue("--sd-theme-color").trim();
+  document
+    .querySelector('meta[name="theme-color"]')
+    ?.setAttribute("content", themeColor);
+>>>>>>> fitur-baru
 }
 
 // Panggil sekali (di Navbar). Mode "system" mengikuti pengaturan perangkat
