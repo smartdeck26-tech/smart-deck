@@ -20,11 +20,7 @@ const socialMedia = [
     icon: FaFacebook,
     link: "https://www.facebook.com/share/1KFsn5izbX/",
   },
-  // {
-  //   name: "YouTube",
-  //   icon: FaYoutube,
-  //   link: "https://www.youtube.com/@SmartDeck10",
-  // },
+  
   {
     name: "TikTok",
     icon: FaTiktok,
