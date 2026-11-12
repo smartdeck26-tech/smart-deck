@@ -22,9 +22,18 @@ const karya = [
     judul: "Aku Berperilaku Pancasila",
     jenis: "PPKn",
     jenjang: "SD",
-    sebelum: "/portofolio/sebelum.png",
-    sesudah: "/portofolio/sesudah.jpg",
+    sebelum: "/portofolio/ppkn-pp-sebelum.png",
+    sesudah: "/portofolio/ppkn-ppsesudah.jpg",
     link: "https://canva.link/z181uaqywb2f1rm"
+  }
+  {
+    id: "informatika-aplikasi pengolah kata",
+    judul: "Aplikasi Pengolah Kata",
+    jenis: "Informatika",
+    jenjang: "SMP",
+    sebelum: "/portofolio/informatika-apk-sebelum.png",
+    sesudah: "/portofolio/informatika-apk-sesudah.jpg",
+    link: "https://canva.link/i52lqryq0tcn6rx"
   }
 ];
 
