@@ -25,7 +25,7 @@ const karya = [
     sebelum: "/portofolio/ppkn-pp-sebelum.png",
     sesudah: "/portofolio/ppkn-pp-sesudah.jpg",
     link: "https://canva.link/z181uaqywb2f1rm"
-  }
+  },
   {
     id: "informatika-aplikasi pengolah kata",
     judul: "Aplikasi Pengolah Kata",
