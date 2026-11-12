@@ -23,7 +23,7 @@ const karya = [
     jenis: "PPKn",
     jenjang: "SD",
     sebelum: "/portofolio/ppkn-pp-sebelum.png",
-    sesudah: "/portofolio/ppkn-ppsesudah.jpg",
+    sesudah: "/portofolio/ppkn-pp-sesudah.jpg",
     link: "https://canva.link/z181uaqywb2f1rm"
   }
   {
