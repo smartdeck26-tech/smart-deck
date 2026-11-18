@@ -25,6 +25,16 @@ const karya = [
     sebelum: "/portofolio/sebelum.png",
     sesudah: "/portofolio/sesudah.jpg",
     link: "https://canva.link/z181uaqywb2f1rm"
+  
+  },
+  {
+     id: "Aplikasi_pengolah_kata",
+    judul: "Aplikasi Pengolah Kata",
+    jenis: "Informatika",
+    jenjang: "SMP",
+    sebelum: "/portofolio/inforsebelum.png",
+    sesudah: "/portofolio/inforsesudah.png",
+    link: "https://canva.link/i52lqryq0tcn6rx" 
   }
 ];
 

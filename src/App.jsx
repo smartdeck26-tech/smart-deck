@@ -10,6 +10,7 @@ import Portofolio from "./components/Portofolio";
 import CTA from "./partials/CTA";
 import FAQ from "./partials/FAQ";
 import Testimoni from "./partials/Testimonials";
+import Demo from "./components/Demo";
 // import Kontak from "./components/Kontak";
 import Footer from "./partials/Footer";
 
@@ -42,6 +43,10 @@ const App = () => {
 
         <ScrollReveal direction="left">
           <Paket />
+        </ScrollReveal>
+
+        <ScrollReveal direction="left">
+          <Demo />
         </ScrollReveal>
 
         <ScrollReveal direction="right">
