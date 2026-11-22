@@ -63,12 +63,21 @@ return (
                     <div className="w-full max-w-[300px] overflow-hidden rounded-3xl bg-[#024C99] shadow-lg">
                         <div className="aspect-[9/16]">
                <a href="https://www.tiktok.com/@smartdeck10_/video/7703556392208108820?q=smartdeck&t=1794994070195"> 
-                <iframe height="578" width="325"
-                    src="https://www.tiktok.com/player/v1/7703556392208108820?embed_from=webapp_share&music_info=1&description=1&autoplay=1&muted=1"
-                    frameborder="0"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; fullscreen; gyroscope; picture-in-picture; web-share"
-                    title="Sudah menghabiskan banyak waktu untuk membuat media pembelajaran? 🤔 SmartDeck hadir sebagai solusi praktis untuk membantu menciptakan media pembelajaran yang kreatif, menarik, dan interaktif tanpa membuang banyak waktu. Yuk, buat pengalaman belajar jadi lebih mudah dan menyenangkan bersama SmartDeck! ✨ #SmartDeck #MediaPembelajaran #PendidikanDigital #BelajarInteraktif"
-                    allowfullscreen loading="lazy"></iframe>
+                       <video
+                            width="325"
+                            height="578"
+                            autoPlay
+                            muted
+                            loop
+                            playsInline
+                            preload="metadata"
+                            style={{
+                                objectFit: "cover",
+                                border: "none",
+                            }}
+                        >
+                        <source src="/demo.mp4" type="video/mp4" />
+                        </video>
                 </a>
                         </div>
                     </div>
