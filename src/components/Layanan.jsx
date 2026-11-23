@@ -17,7 +17,6 @@ const services = [
     tone: "blue",
     harga: 15000,
     satuan: "materi",
-    catatan: "±10 slide",
     gambar: "/layanan/canva.png",
     gambarAlt:
       "Banner layanan media pembelajaran Canva dengan dua siswa dan tampilan editor Canva di laptop",
@@ -30,7 +29,6 @@ const services = [
     tone: "orange",
     harga: 40000,
     satuan: "materi",
-    catatan: "±10 soal",
     gambar: "/layanan/wordwall.png",
     gambarAlt:
       "Banner layanan evaluasi interaktif Wordwall dengan dua siswa dan permainan kuis di laptop",
@@ -43,7 +41,6 @@ const services = [
     tone: "gradient",
     harga: 50000,
     satuan: "materi",
-    catatan: "±10 slide + ±10 soal",
     hemat: 5000,
     gambar: "/layanan/terintegrasi.png",
     gambarAlt:
@@ -162,9 +159,7 @@ const Layanan = () => {
                       / {s.satuan}
                     </span>
                   </p>
-                  <p className="mt-1 text-xs text-slate-400">
-                    {s.catatan} · harga menyesuaikan jumlah materi
-                  </p>
+                  
                 </div>
 
                 <a
