@@ -39,7 +39,7 @@ export const faqs = [
   },
   {
     q: "Apakah saya perlu akun berbayar Canva atau Wordwall?",
-    a: "Hal ini dibahas saat konsultasi, menyesuaikan kebutuhan dan fitur yang Anda inginkan.",
+    a: "Tidak. SmartDeck menggunakan akun berbayar untuk membuat media pembelajaran, sehingga Anda tidak perlu memiliki akun berbayar sendiri.",
   },
 ];
 
