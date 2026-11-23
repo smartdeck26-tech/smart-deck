@@ -67,6 +67,7 @@ return (
                             width="325"
                             height="578"
                             autoPlay
+                            muted
                             loop
                             playsInline
                             preload="metadata"
