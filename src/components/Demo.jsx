@@ -62,11 +62,11 @@ return (
                 <div className="flex justify-center">
                     <div className="w-full max-w-[300px] overflow-hidden rounded-3xl bg-[#024C99] shadow-lg">
                         <div className="aspect-[9/16]">
-               <a href="https://www.tiktok.com/@smartdeck10_/video/7708390843475971348?is_from_webapp=1&sender_device=pc&web_id=7711086442923853320"> 
+               <a href="https://www.tiktok.com/@smartdeck10_/video/7708390843475971348?is_from_webapp=1&sender_device=pc&web_id=7711086442923853320" target="_blank" rel="noopener noreferrer"> 
                        <video
                             width="325"
                             height="578"
-                            autoPlay                            
+                            autoPlay
                             loop
                             playsInline
                             preload="metadata"
